@@ -147,7 +147,7 @@ body {
   background: var(--color-white);
   color: var(--color-text);
   border: none;
-  width: 10%;
+  width: 100%;
   text-align: left;
   cursor: pointer;
   transition: var(--transition-fast);
