@@ -16,11 +16,10 @@ const userSchema = new mongoose.Schema({
 });
 
 // Antes de guardar, encripta la contraseña
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('pass')) return next();
+userSchema.pre('save', async function () {
+  if (!this.isModified('pass')) return;
   const salt = await bcrypt.genSalt(10);
   this.pass = await bcrypt.hash(this.pass, salt);
-  next();
 });
 
 // Método para comparar contraseñas

@@ -1,0 +1,102 @@
+/* ---- LOGIN CONTAINER ---- */
+.containerLogin {
+  width: 100%;
+  height: 100vh; /* Para centrar verticalmente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-secondary);
+  padding: var(--spacing-md);
+}
+
+/* ---- LOGIN FORM ---- */
+.login-form {
+  background: var(--color-white);
+  padding: var(--spacing-xl);
+  max-width: 420px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+/* ---- TITLE ---- */
+.login-form .title {
+  font-size: 28px;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text);
+}
+
+/* ---- FORM GROUP ---- */
+.form-group {
+  margin-bottom: var(--spacing-md);
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  background: var(--color-white);
+  color: var(--color-text);
+  transition: var(--transition-fast);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 4px rgba(42, 77, 155, 0.3);
+}
+
+/* ---- SUBMIT BUTTON ---- */
+.submit-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  margin-top: var(--spacing-sm);
+}
+
+.submit-btn:hover {
+  background: var(--color-primary-light);
+}
+
+/* ---- REGISTER LINK ---- */
+.register-link {
+  margin-top: var(--spacing-lg);
+  color: var(--color-text-light);
+}
+
+.register-link .link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link .link:hover {
+  text-decoration: underline;
+}
+
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  .login-form {
+    padding: var(--spacing-lg);
+    max-width: 350px;
+  }
+}

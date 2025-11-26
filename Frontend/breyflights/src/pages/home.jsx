@@ -53,15 +53,15 @@ function App() {
                   </a>
                 ) : (
                   <div>
-                    <Link className="btnH" id="login-btn" to="/login"> Login </Link>
-                    <Link className="btnH" id="register-btn" to="/register"> Register </Link>
+                    <Link className="btnH" id="login-btn" to="/login"> Sign In </Link>
+                    <Link className="btnH" id="register-btn" to="/register"> Sign Up </Link>
                   </div>
                 )}
 
                 {usuario && open && (
                   <div className="usuario-dropdown">
-                    <Link to="/profile" className="dropdown-item">Perfil</Link>
-                    <button onClick={logout} className="dropdown-item">Cerrar sesión</button>
+                    <Link to="/profile" className="dropdown-item">Profile</Link>
+                    <button onClick={logout} className="dropdown-item">Sing Out</button>
                   </div>
                 )}
               </li>
