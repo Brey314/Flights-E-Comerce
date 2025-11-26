@@ -76,7 +76,6 @@ body {
 }
 
 /* ---- SEARCH ---- */
-/* ---- SEARCH ---- */
 .search {
   padding: var(--spacing-lg) 0;
   text-align: center;
@@ -140,9 +139,23 @@ body {
   margin: var(--spacing-sm) auto;
   max-width: 600px;
   box-shadow: var(--shadow-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .flight-card p {
   margin: var(--spacing-xs) 0;
   color: var(--color-text-light);
+}
+
+.flight-card button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: var(--transition-fast);
 }

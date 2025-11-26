@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Obtener productos del carrito
+// Get flight in reservations
 router.get("/", async(req, res) => {
   try {
     const token = req.cookies.token;
@@ -24,7 +24,7 @@ router.get("/", async(req, res) => {
   }
 });
 
-// Agregar producto al carrito
+// add flight in reservations
 router.post("/", async(req, res) => {
   try {
     const token = req.cookies.token;
@@ -34,11 +34,11 @@ router.post("/", async(req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const idUser = decoded.id;
     //console.log(idUser);
-    const { idProd,cuantity } = req.body;
+    const { idFlight,cuantity } = req.body;
     const newFlight = new Reservation({ 
-      idProd,
+      idFlight,
       idUser,
-      chairs_reserved
+      chairs_reserved:cuantity
     });
     const reservationSave = await newFlight.save();
     console.log("Flight added with token=",token);
@@ -50,7 +50,7 @@ router.post("/", async(req, res) => {
   }
 });
 
-// Eliminar producto por id
+// delete flight with id
 router.delete("/:_id", async(req, res) => {
   try{
     const token = req.cookies.token;
@@ -70,7 +70,7 @@ router.delete("/:_id", async(req, res) => {
   }
 });
 
-// Eliminar producto por id al comprar
+// delete  flight with id when pay
 router.delete("/payed/:_id", async(req, res) => {
   try{
     const { _id } = req.params;

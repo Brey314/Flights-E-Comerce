@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const reservation = new mongoose.Schema({
-  idProd:String,
+  idFlight:String,
   idUser: String,
   chairs_reserved: Number,
   update_date: {

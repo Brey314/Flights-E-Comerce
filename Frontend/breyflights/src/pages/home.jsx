@@ -1,8 +1,9 @@
 import { useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { useAuth } from "../context/AuthContext";
 import './css/home.css'
 
+const api="http://localhost:5000/api";
 function App() {
   const { user, logout} = useAuth();
   const [open, setOpen] = useState(false)
@@ -10,6 +11,7 @@ function App() {
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
   const [flights, setFlights] = useState([])
+  const navigate=useNavigate()
 
   const handleSearch = async (e) => {
     console.log(user);
@@ -20,7 +22,7 @@ function App() {
     if (date) params.append('date', date)
     console.log('Sending params:', params.toString())
     try {
-      const response = await fetch(`http://localhost:5000/api/flights?${params.toString()}`)
+      const response = await fetch(`${api}/flights?${params.toString()}`)
       const data = await response.json()
       if (response.ok) {
         setFlights(data)
@@ -32,6 +34,55 @@ function App() {
       setFlights([])
     }
   }
+
+  const addToRecerved = async (id) => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      try {
+        const resflight = {
+          idFlight: id,
+          cuantity: 1,
+        };
+
+        const resp = await fetch(`${api}/reservation`, {
+          credentials: "include"
+        });
+        const data = await resp.json();
+        if (!Array.isArray(data)) {
+          console.error("Unexpected server response:", data);
+        return;
+        }
+        const exist = data.find((item) => item.idFlight === resflight.idFlight);
+
+
+        if (exist) {
+          // If exist, add a new chair recerved
+          const newCuantity = exist.chairs_reserved + 1;
+
+          await fetch(`${api}/reservation/${exist._id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chairs_reserved: newCuantity }),
+            credentials: "include"
+          });
+        } else {
+          // If don't exist, recerved
+          await fetch(`${api}/reservation/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(resflight),
+            credentials: "include"
+          });
+        }
+        alert(`Flight from ${resflight.from} to ${resflight.to} recerved`);
+        console.log(data);
+      } catch (err) {
+        console.error("Fail to send flight:", err);
+      }
+    }
+  };
+
 
   return (
     <>
@@ -65,8 +116,8 @@ function App() {
                 )}
               </li>
               <li>
-                <Link to="/shoppingcart">
-                  <img src="/assets/cart.png" alt="Carrito de compras" />
+                <Link to="/reservation">
+                  <img src="/assets/cart.png" alt="reservations" />
                 </Link>
               </li>
             </ul>
@@ -103,16 +154,19 @@ function App() {
           {flights.length > 0 ? (
             flights.map(flight => (
               <div key={flight._id} className="flight-card">
-                <p><strong>From:</strong> {flight.from}</p>
-                <p><strong>To:</strong> {flight.to}</p>
-                <p><strong>Date:</strong> {(() => {
-                  const [year, month, day] = flight.flight_date.split('-');
-                  return `${day}/${month}/${year}`;
-                })()}</p>
-                <p><strong>Time:</strong> {flight.flight_time}</p>
-                <p><strong>Price:</strong> ${flight.price}</p>
-                <p><strong>Company:</strong> {flight.company}</p>
-                <p><strong>Chairs:</strong> {flight.chairs}</p>
+                <div >
+                  <p><strong>From:</strong> {flight.from}</p>
+                  <p><strong>To:</strong> {flight.to}</p>
+                  <p><strong>Date:</strong> {(() => {
+                    const [year, month, day] = flight.flight_date.split('-');
+                    return `${day}/${month}/${year}`;
+                  })()}</p>
+                  <p><strong>Time:</strong> {flight.flight_time}</p>
+                  <p><strong>Price:</strong> ${flight.price}</p>
+                  <p><strong>Company:</strong> {flight.company}</p>
+                  <p><strong>Chairs:</strong> {flight.chairs}</p>
+                </div>
+                <button type="button" onClick={() => addToRecerved(flight._id)}>Reservar</button>
               </div>
             ))
           ) : (

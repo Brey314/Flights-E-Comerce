@@ -65,8 +65,8 @@ function Register() {
                             <Link className="btnH" id="register-btn" to="/login"> Sign In </Link>
                         </li>
                         <li>
-                            <Link to="/shoppingcart">
-                                <img src="/assets/cart.png" alt="Carrito de compras" />
+                            <Link to="/reservation">
+                                <img src="/assets/cart.png" alt="reservations" />
                             </Link>
                         </li>
                     </ul>
