@@ -4,7 +4,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const flightsRoutes = require('./routes/flights');
 const usersRoutes = require('./routes/users');
-const reservationRoutes = require('./routes/reservation')
+const reservationRoutes = require('./routes/reservation');
+const paymentRoutes = require('./routes/payments');
 const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 5000;
@@ -19,9 +20,11 @@ app.use(express.json());
 
 // Routes
 app.use(cookieParser());
+app.use('/api/webhook', express.raw({ type: 'application/json' }));
 app.use('/api/flights', flightsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/reservation', reservationRoutes);
+app.use('/api',paymentRoutes);
 
 // MongoDB Connection
 console.log(MONGO_URI);

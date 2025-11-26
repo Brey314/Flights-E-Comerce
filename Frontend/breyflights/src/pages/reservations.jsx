@@ -34,7 +34,6 @@ function Reservation() {
         }
     };
 
-    // Cambiar cantidad
     const changeChairs = async (idFlight, reserved_chairs, op, total_chairs) => {
         try {
             let newcuantity = reserved_chairs;
@@ -78,18 +77,52 @@ function Reservation() {
     };
 
     const calculateTikets = (tikets) => {
-    let sumPrice = 0;
-    let sumCuantity = 0;
-    if (tikets && tikets.length > 0) {
-      tikets.forEach((item) => {
-        sumPrice += item.price * item.reserved_chairs;
-        sumCuantity += item.reserved_chairs;
-      });
-    }
-    setSubtotal(sumPrice);
-    setCantidad(sumCuantity);
-  };
+        let sumPrice = 0;
+        let sumCuantity = 0;
+        if (tikets && tikets.length > 0) {
+        tikets.forEach((item) => {
+            sumPrice += item.price * item.reserved_chairs;
+            sumCuantity += item.reserved_chairs;
+        });
+        }
+        setSubtotal(sumPrice);
+        setCantidad(sumCuantity);
+    };
 
+    const checkout = async () => {
+        if(flight.length===0){
+            alert("No hay productos en el carrito"); 
+            return;
+        }
+        const items = flight.map(flight => ({
+            _id: flight._id,
+            flightId: flight.idFlight,
+            name: "Tiket of Flight " + flight.company + ", From: " + flight.from + ", To: "+flight.to+".",
+            unit_amount: flight.price*100,
+            quantity: flight.chairs_reserved,
+            total: subtotal,
+            currency: "USD"
+        }));
+        if (!window.confirm("")) return;
+
+        const res = await fetch(`${api}/create-checkout-session`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                items,
+                success_url: "https://localhost:3000/success/{CHECKOUT_SESSION_ID}",
+                cancel_url: "https://localhost:3000/cancel"
+            })
+        });
+
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url; // redirige a Stripe Checkout
+        } else {
+            console.error("No session url returned", data);
+        }
+    };
     useEffect(() => {
         console.log("Reservations: useEffect triggered, user:", user);
             const loadReservations = async () => {
@@ -212,7 +245,7 @@ function Reservation() {
                     </h2>
                     <h1>USD {subtotal.toLocaleString()} $</h1>
                     </div>
-                    <button className="pay" >Proceed to payment</button>
+                    <button className="pay" onClick={checkout} >Proceed to payment</button>
                 </div>
             </div>
         </main>
