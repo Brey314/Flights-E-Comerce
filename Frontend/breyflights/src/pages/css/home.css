@@ -1,0 +1,181 @@
+/* ---- RESET BÁSICO ---- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* ---- HEADER ---- */
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar a,
+.btnH {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  padding: 8px 14px;
+  transition: 0.2s ease;
+  border-radius: 6px;
+}
+
+.btnH:hover {
+  background: #e8eef7;
+}
+
+/* ---- CONTAINER ---- */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ---- USUARIO MENU ---- */
+.usuario-menu-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.usuario-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 160px;
+  padding: 8px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #333;
+  transition: 0.2s ease;
+  background: white;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f2f6fc;
+}
+
+/* ---- CART ICON ---- */
+.navbar img {
+  width: 28px;
+  height: auto;
+  transition: 0.2s ease;
+}
+
+.navbar img:hover {
+  transform: scale(1.08);
+}
+
+/* ---- HERO ---- */
+.hero {
+  background: linear-gradient(to bottom right, #e8eef7, #fdfdfd);
+  padding: 80px 0;
+  text-align: center;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.hero h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* ---- SEARCH ---- */
+.search {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.search h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.search form {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 200px;
+}
+
+.search button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.search button:hover {
+  background: #0056b3;
+}
+
+/* ---- RESULTS ---- */
+.results {
+  padding: 40px 0;
+}
+
+.results h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.flight-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.flight-card p {
+  margin: 5px 0;
+}

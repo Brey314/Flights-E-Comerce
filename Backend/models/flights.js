@@ -2,15 +2,16 @@ const mongoose = require('mongoose');
 console.log('Loading flights model');
 
 const flightsSchema = new mongoose.Schema({
-  form: String,
+  from: String,
   to: String,
   price: Number,
-  sclae1: String,
-  sclae2: String,
-  sclae3: String,
+  scale1: String,
+  scale2: String,
+  scale3: String,
   company: String,
   chairs: Number,
   flight_date: Date,
+  flight_time: String,
   creation_date: {
     type: Date,
     default: Date.now
