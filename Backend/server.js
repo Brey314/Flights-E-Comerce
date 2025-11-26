@@ -11,6 +11,12 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+//MONGO_URI=url of MongoDB Atlas, when desploy should open the ip address
+//PORT=5000
+//JWT_SECRET=generated in Git Bash with: openssl rand -hex 32
+//STRIPE_SECRET_KEY=key generated when create stripe account
+//STRIPE_WEBHOOK_SECRET=key generated when create a webhook, remember host the backend with ngrok or with a service like this and change the connection point on the Stripe Webhook dashboard
+//REACT_APP_API_URL=in this case http://localhost:5000
 // Middleware
 app.use(cors({
   origin: ['http://localhost:5000',"http://localhost:3000"],
