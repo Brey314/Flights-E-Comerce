@@ -51,51 +51,6 @@ body {
   margin: auto;
 }
 
-/* ---- USUARIO MENU ---- */
-.usuario-menu-container {
-  position: relative;
-  cursor: pointer;
-}
-
-.usuario-dropdown {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  min-width: 160px;
-  padding: var(--spacing-xs) 0;
-  box-shadow: var(--shadow-soft);
-}
-
-.dropdown-item {
-  display: block;
-  padding: var(--spacing-sm) var(--spacing-md);
-  text-decoration: none;
-  background: var(--color-white);
-  color: var(--color-text);
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.dropdown-item:hover {
-  background: var(--color-secondary);
-}
-/* ---- CART ICON ---- */
-.navbar img {
-  width: 28px;
-  height: auto;
-  transition: var(--transition-fast);
-}
-
-.navbar img:hover {
-  transform: scale(1.08);
-}
-
 /* ---- HERO ---- */
 .hero {
   background: linear-gradient(

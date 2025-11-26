@@ -1,20 +1,18 @@
 import { useState} from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from "../context/AuthContext";
 import './css/home.css'
 
 function App() {
+  const { user, logout} = useAuth();
   const [open, setOpen] = useState(false)
-  const [usuario, setUsuario] = useState(null)
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
   const [flights, setFlights] = useState([])
 
-  const logout = () => {
-    setUsuario(null)
-  }
-
   const handleSearch = async (e) => {
+    console.log(user);
     e.preventDefault()
     const params = new URLSearchParams()
     if (from) params.append('from', from)
@@ -43,13 +41,14 @@ function App() {
             <ul>
               <li><Link className="btnH" to="/">Home</Link></li>
               <li 
-                className="usuario-menu-container"
+                className="user-menu-container"
                 onMouseEnter={() => setOpen(true)}
                 onMouseLeave={() => setOpen(false)}
               >
-                {usuario ? (
+                
+                {user ? (
                   <a className="btnH">
-                    Welcome, <strong>{usuario.user}</strong>
+                    Welcome, <strong>{user.user}</strong>
                   </a>
                 ) : (
                   <div>
@@ -58,10 +57,10 @@ function App() {
                   </div>
                 )}
 
-                {usuario && open && (
-                  <div className="usuario-dropdown">
+                {user && open && (
+                  <div className="user-dropdown">
                     <Link to="/profile" className="dropdown-item">Profile</Link>
-                    <button onClick={logout} className="dropdown-item">Sing Out</button>
+                    <a onClick={logout} className="dropdown-item">Sing Out</a>
                   </div>
                 )}
               </li>
