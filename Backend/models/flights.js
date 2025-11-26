@@ -10,7 +10,7 @@ const flightsSchema = new mongoose.Schema({
   scale3: String,
   company: String,
   chairs: Number,
-  flight_date: Date,
+  flight_date: String,
   flight_time: String,
   creation_date: {
     type: Date,

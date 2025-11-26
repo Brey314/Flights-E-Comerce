@@ -20,6 +20,7 @@ function App() {
     if (from) params.append('from', from)
     if (to) params.append('to', to)
     if (date) params.append('date', date)
+    console.log('Sending params:', params.toString())
     try {
       const response = await fetch(`http://localhost:5000/api/flights?${params.toString()}`)
       const data = await response.json()
@@ -85,7 +86,16 @@ function App() {
             <form onSubmit={handleSearch}>
               <input type="text" value={from} onChange={(e) => setFrom(e.target.value)} placeholder="From" />
               <input type="text" value={to} onChange={(e) => setTo(e.target.value)} placeholder="To" />
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <input type="date" value={date} onChange={(e) => {
+                const inputDate = e.target.value;
+                if (inputDate) {
+                  const dateObj = new Date(inputDate + 'T12:00:00');
+                  const adjusted = dateObj.toISOString().split('T')[0];
+                  setDate(adjusted);
+                } else {
+                  setDate('');
+                }
+              }} />
               <button type="submit">Search</button>
             </form>
         </section>
@@ -96,7 +106,10 @@ function App() {
               <div key={flight._id} className="flight-card">
                 <p><strong>From:</strong> {flight.from}</p>
                 <p><strong>To:</strong> {flight.to}</p>
-                <p><strong>Date:</strong> {new Date(flight.flight_date).toLocaleDateString()}</p>
+                <p><strong>Date:</strong> {(() => {
+                  const [year, month, day] = flight.flight_date.split('-');
+                  return `${day}/${month}/${year}`;
+                })()}</p>
                 <p><strong>Time:</strong> {flight.flight_time}</p>
                 <p><strong>Price:</strong> ${flight.price}</p>
                 <p><strong>Company:</strong> {flight.company}</p>
