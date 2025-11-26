@@ -2,7 +2,7 @@ import { Link ,useNavigate} from "react-router-dom";
 import { useState } from "react";
 import "./css/userForm.css"; 
 
-const api=process.env.REACT_APP_API_URL;
+const api="http://localhost:5000/api";
 
 function Register() {
     const navigate=useNavigate();
@@ -21,7 +21,7 @@ function Register() {
         e.preventDefault();
         setUsers([]);
         try {
-            const answ = await fetch(`http://localhost:5000/api/users`);
+            const answ = await fetch(`${api}/users`);
             if (!answ.ok) throw new Error(`Error HTTP: ${answ.status}`);
             const data = await answ.json();
             setUsers(data);
@@ -35,7 +35,7 @@ function Register() {
     const saveNewUser = async () => {
         console.log("Starting saveNewUser with data:", newUser);
         try {
-            const resp = await fetch(`http://localhost:5000/api/users/register`, {
+            const resp = await fetch(`${api}/users/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newUser),

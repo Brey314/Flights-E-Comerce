@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-console.log('Loading flights model');
 
 const flightsSchema = new mongoose.Schema({
   from: String,

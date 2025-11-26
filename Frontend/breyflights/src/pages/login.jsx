@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate ,Link} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const api=process.env.REACT_APP_API_URL;
+const api="http://localhost:5000/api";
 export default function Login() {
   const [user, setuser] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const resp = await fetch(`http://localhost:5000/api/users/login`, {
+      const resp = await fetch(`${api}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: user, pass: password }),

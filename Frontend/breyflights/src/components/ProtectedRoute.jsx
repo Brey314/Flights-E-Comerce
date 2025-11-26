@@ -19,8 +19,8 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/profile" replace />;
   }
 
-  // 3. Usuario no autenticado
-  if (!user) {
+  // 3. Usuario no autenticado, pero permitir acceso a login/register
+  if (!user && !location.pathname.startsWith("/login") && !location.pathname.startsWith("/register")) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

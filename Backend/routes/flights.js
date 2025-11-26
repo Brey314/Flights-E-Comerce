@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Flights = require('../models/flights');
 
-
+//consultar vuelos
 router.get('/', async (req, res) => {
   try {
     console.log('Received query:', req.query);
@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
     if (to) query.to = to;
     if (date) {
       console.log('Date received:', date);
-      // Dates are stored as strings in YYYY-MM-DD format
       query.flight_date = date;
     }
     console.log('Final query:', query);

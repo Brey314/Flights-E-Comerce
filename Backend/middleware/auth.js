@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-function verificarToken(req, res, next) {
+function checkToken(req, res, next) {
   const token = req.cookies.token;
   console.log("Middleware: Token present:", !!token);
   if (!token) {
@@ -21,4 +21,4 @@ function verificarToken(req, res, next) {
   }
 }
 
-module.exports = verificarToken;
+module.exports = checkToken;

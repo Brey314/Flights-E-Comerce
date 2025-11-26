@@ -23,8 +23,8 @@ router.post('/login', async (req, res) => {
     );
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true, //en caso de https
-      sameSite: 'None',
+      secure: false, // false for localhost development
+      sameSite: 'Lax',
       maxAge: 2 * 60 * 60 * 1000, // 2 horas
     });
     res.json({
@@ -59,6 +59,11 @@ router.post('/register', async (req, res) => {
     console.error('Error creating user:', err);
     res.status(500).json({ error: 'Error creating user' });
   }
+});
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'Logged out successfully' });
 });
 
 router.get("/check", checkToken, async (req, res) => {
