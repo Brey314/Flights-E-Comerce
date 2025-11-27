@@ -8,6 +8,7 @@ function Register() {
     const navigate=useNavigate();
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState("");
     const [loading, setLoading] = useState(false);
     const [newUser, setNewUser] = useState({
     name: "",
@@ -32,8 +33,22 @@ function Register() {
         }
     };
 
+    const validateEmail = (email) => {
+        const allowedDomains = ['gmail.com', 'outlook.com'];
+        const domain = email.split('@')[1];
+        if (!domain || !allowedDomains.includes(domain.toLowerCase())) {
+            return false;
+        }
+        return true;
+    };
+
     const saveNewUser = async () => {
         console.log("Starting saveNewUser with data:", newUser);
+        setEmailError("");
+        if (!validateEmail(newUser.email)) {
+            setEmailError("Email must end with @gmail.com or @outlook.com.");
+            return;
+        }
         try {
             const resp = await fetch(`${api}/users/register`, {
             method: "POST",
@@ -96,16 +111,17 @@ function Register() {
 
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="email"
                                 value={newUser.email}
-                                id="email" 
-                                name="email" 
+                                id="email"
+                                name="email"
                                 onChange={(e) =>
                                 setNewUser({ ...newUser, email: e.target.value })
                                 }
-                                placeholder="Your email" 
+                                placeholder="Your email"
                                 required />
+                            {emailError && <p className="error">{emailError}</p>}
                         </div>
 
                         <div className="form-group">

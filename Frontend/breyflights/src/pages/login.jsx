@@ -93,9 +93,9 @@ export default function Login() {
 
       <p className="register-link">
         ¿Don't have an account?{" "}
-        <a href="/Register" className="link">
+        <Link to="/register" className="link">
           Sing Up
-        </a>
+        </Link>
       </p>
     </div>
   </div>

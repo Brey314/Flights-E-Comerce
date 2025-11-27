@@ -22,11 +22,11 @@ app.use(cors({
   origin: ['http://localhost:5000',"http://localhost:3000"],
   credentials: true,
 }));
+app.use('/api/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 
 // Routes
 app.use(cookieParser());
-app.use('/api/webhook', express.raw({ type: 'application/json' }));
 app.use('/api/flights', flightsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/reservation', reservationRoutes);

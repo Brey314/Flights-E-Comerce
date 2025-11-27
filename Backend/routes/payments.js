@@ -3,10 +3,12 @@ const router = express.Router();
 const Stripe = require("stripe");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const sgMail = require("@sendgrid/mail");
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const api=process.env.REACT_APP_API_URL;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 // Crea una sesión de Checkout
 // Espera recibir en el body { items: [{ name, unit_amount, quantity, currency }], success_url, cancel_url }
 router.post("/create-payment-intent", async (req, res) => {
@@ -17,6 +19,7 @@ router.post("/create-payment-intent", async (req, res) => {
 
     const { items } = req.body;
     console.log("Received items:", items);
+    console.log("Checking email in items:", items.map(item => ({ id: item._id, email: item.email })));
 
     const amount = items.reduce(
       (sum, item) => {
@@ -32,7 +35,8 @@ router.post("/create-payment-intent", async (req, res) => {
       c: item._id,
       p: item.flightId,
       q: item.quantity,
-      u: item.unit_amount
+      u: item.unit_amount,
+      e: item.email
     }));
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -69,6 +73,7 @@ router.get("/payment/session/:id", async (req, res) => {
 
 // Webhook endpoint para recibir confirmación de pago
 router.post("/webhook", async (req, res) => {
+  console.log("Webhook received. Body type:", typeof req.body, "Body length:", req.body ? req.body.length : 'null');
   const sig = req.headers["stripe-signature"];
   let event;
 
@@ -87,24 +92,56 @@ router.post("/webhook", async (req, res) => {
   if (event.type === "payment_intent.succeeded") {
     const session = event.data.object;
     console.log("DEBUG: Webhook received payment_intent.succeeded, id:", session.id, "status:", session.status);
-    console.log(session);
+    console.log(JSON.parse(session.metadata.items));
     // session contiene: id, amount_total, currency, customer_details, metadata, etc.
     console.log("Checkout session completed:", session.id);
     const items = JSON.parse(session.metadata.items).map(i => ({
       _id: i.c,
       flightId: i.p,
       chairs_reserved: i.q,
-      unit_amount: i.u
+      unit_amount: i.u,
+      email: i.e
     }));
     const userId = session.metadata.userId;
     console.log("Tikets:", items);
     console.log("User ID:", userId);
 
     for (const item of items) {
+      const to=item.email;
+      console.log("Sending email to:", to);
+      console.log("From email:", "no-reply@breyflights.com");
+      console.log("SendGrid API key set:", process.env.SENDGRID_API_KEY ? "Yes" : "No");
+      try {
+// sgMail.setDataResidency('eu'); 
+// uncomment the above line if you are sending mail using a regional EU subuser
+
+        const msg = {
+          to, // Change to your recipient
+          from: 'benabidesreysanti@outlook.com', // Change to your verified sender
+          subject: 'Sending with SendGrid is Fun',
+          text: 'and easy to do anywhere, even with Node.js',
+          html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        }
+        sgMail
+          .send(msg)
+          .then(() => {
+            console.log('Email sent')
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+        console.log("Email sent successfully to:", to);
+      } catch (emailErr) {
+        console.error("SendGrid error:", emailErr.message);
+        // Continue processing other items or handle as needed
+      }
       }
     }
+    
+
     res.status(200).send('OK');
   
 });
+
 
 module.exports = router;
