@@ -3,9 +3,6 @@
 A full-stack web application for searching, comparing and buying flights online.  
 The project is organized into a **Backend**, a **Frontend** (`Frontend/breyflights`) and a **Documentation** folder.
 
->  Note: This README describes the intended architecture and usage.  
-> If you changed folder names, scripts or technologies, update the corresponding sections.
-
 ---
 
 ## Features
