@@ -36,7 +36,8 @@ router.post("/create-payment-intent", async (req, res) => {
       p: item.flightId,
       q: item.quantity,
       u: item.unit_amount,
-      e: item.email
+      e: item.email,
+      n: item.name
     }));
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -100,11 +101,13 @@ router.post("/webhook", async (req, res) => {
       flightId: i.p,
       chairs_reserved: i.q,
       unit_amount: i.u,
-      email: i.e
+      email: i.e,
+      name: i.n
     }));
     const userId = session.metadata.userId;
     console.log("Tikets:", items);
     console.log("User ID:", userId);
+    console.log("DEBUG: Parsed items emails:", items.map(item => item.email));
 
     for (const item of items) {
       const to=item.email;
@@ -118,9 +121,16 @@ router.post("/webhook", async (req, res) => {
         const msg = {
           to, // Change to your recipient
           from: 'benabidesreysanti@outlook.com', // Change to your verified sender
-          subject: 'Sending with SendGrid is Fun',
-          text: 'and easy to do anywhere, even with Node.js',
-          html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+          subject: `Payment Confirmation of your ${item.name} in BreyFlights`,
+          text: `Thank you for your purchase with BreyFlights! Your payment has been successfully processed. Here are your ticket details:
+            🛫 Flight: ${item.name}
+            💺 Reserved seats: ${item.chairs_reserved}
+            💵 Total paid: $${item.unit_amount}
+            📘 Internal code: ${item._id}
+
+            If you have any questions or need assistance, feel free to contact us.
+            Safe travels,
+            The BreyFlights Team`
         }
         sgMail
           .send(msg)

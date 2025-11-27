@@ -14,13 +14,11 @@ function App() {
   const navigate=useNavigate()
 
   const handleSearch = async (e) => {
-    console.log(user);
     e.preventDefault()
     const params = new URLSearchParams()
     if (from) params.append('from', from)
     if (to) params.append('to', to)
     if (date) params.append('date', date)
-    console.log('Sending params:', params.toString())
     try {
       const response = await fetch(`${api}/flights?${params.toString()}`)
       const data = await response.json()
@@ -76,7 +74,6 @@ function App() {
           });
         }
         alert(`Flight from ${resflight.from} to ${resflight.to} recerved`);
-        console.log(data);
       } catch (err) {
         console.error("Fail to send flight:", err);
       }

@@ -13,12 +13,9 @@ export default function PaymentPage() {
   const { user, logout} = useAuth();
 
   useEffect(() => {
-    console.log("DEBUG: Creating new PaymentIntent");
-
     async function createIntent() {
       const cart = JSON.parse(localStorage.getItem("cart"));
       let eemail=user.email;
-      console.log("pay says", eemail);
       // Map cart items to expected format for backend
       const items = cart.map(item => ({
         _id: item._id,
@@ -38,7 +35,6 @@ export default function PaymentPage() {
       });
 
       const data = await res.json();
-      console.log("DEBUG: New PaymentIntent created, clientSecret:", data.clientSecret ? "received" : "null");
       setClientSecret(data.clientSecret);
       // Removed localStorage storage to prevent reuse of expired clientSecrets
     }

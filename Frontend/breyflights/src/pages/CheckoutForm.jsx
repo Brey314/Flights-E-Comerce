@@ -16,7 +16,6 @@ export default function CheckoutForm() {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
 
-  console.log("DEBUG: CheckoutForm mounted, stripe:", !!stripe, "elements:", !!elements);
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -27,10 +26,8 @@ export default function CheckoutForm() {
     e.preventDefault();
     setLoading(true);
 
-    console.log("DEBUG: Starting payment confirmation");
 
     if (!stripe || !elements) {
-      console.log("DEBUG: Stripe or elements not ready");
       return;
     }
 
@@ -42,10 +39,8 @@ export default function CheckoutForm() {
     });
 
     if (error) {
-      console.log("DEBUG: Payment confirmation error:", error.message);
       setErrorMessage(error.message);
     } else {
-      console.log("DEBUG: Payment confirmation successful, clearing clientSecret and redirecting");
       localStorage.removeItem('paymentClientSecret');
     }
 
@@ -58,19 +53,18 @@ export default function CheckoutForm() {
     const resetTimer = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        alert("Tu sesión de compra expiró por inactividad");
+        alert("Your sesión has been expired due to inactivity");
+        logout();
         window.location.href = "/"; 
       }, 15 * 60 * 1000);
     };
 
-    window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keypress", resetTimer);
     window.addEventListener("click", resetTimer);
 
     resetTimer();
 
     return () => {
-      window.removeEventListener("mousemove", resetTimer);
       window.removeEventListener("keypress", resetTimer);
       window.removeEventListener("click", resetTimer);
       clearTimeout(timer);

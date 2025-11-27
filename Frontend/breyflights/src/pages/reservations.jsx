@@ -103,8 +103,7 @@ function Reservation() {
     };
 
     useEffect(() => {
-        console.log("Reservations: useEffect triggered, user:", user);
-            const loadReservations = async () => {
+        const loadReservations = async () => {
             try {
                 const answ = await fetch(`${api}/reservation`, {
                     credentials: "include"
@@ -126,7 +125,6 @@ function Reservation() {
                         console.log("Reservations: No flight found for idFlight:", items.idFlight);
                     }
                 }
-                console.log("Reservations: Total merged reservations:", mergedReservations.length);
                 setFlight(mergedReservations);
                 calculateTikets(mergedReservations);
             } catch (err) {
