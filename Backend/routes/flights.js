@@ -6,13 +6,18 @@ const Flights = require('../models/flights');
 router.get('/', async (req, res) => {
   try {
     console.log('Received query:', req.query);
-    const { from, to, date } = req.query;
+    const { from, to, date, time, category, company, direct } = req.query;
     let query = {};
     if (from) query.from = from;
     if (to) query.to = to;
     if (date) {
       console.log('Date received:', date);
       query.flight_date = date;
+    }
+    if (time) query.flight_time = time;
+    if (company) query.company = company;
+    if (direct === "true") {
+      query.scale1 = "";
     }
     console.log('Final query:', query);
     let flights = await Flights.find(query);

@@ -8,16 +8,16 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Get flight in reservations
 router.get("/", async(req, res) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) {
-      console.log("No token provided in reservation GET");
-      return res.status(401).json({ error: "unauthorized" });
-    }
+   try {
+     const token = req.cookies.token;
+     if (!token) {
+       console.log("No token provided in reservation GET");
+       return res.status(401).json({ error: "unauthorized" });
+     }
 
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const idUser = decoded.id;
-    console.log("Fetching reservations for user:", idUser);
+     const decoded = jwt.verify(token, JWT_SECRET);
+     const idUser = decoded.id.toString();
+     console.log("Fetching reservations for user:", idUser);
 
     const reservation = await Reservation.find({ idUser });
     console.log("Reservations found:", reservation.length, "items");
@@ -31,84 +31,88 @@ router.get("/", async(req, res) => {
 
 // add flight in reservations
 router.post("/", async(req, res) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) {
-      console.log("No token provided in reservation POST");
-      return res.status(401).json({ error: "unauthorized" });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const idUser = decoded.id;
-    console.log("Creating reservation for user:", idUser);
-    const { idFlight,cuantity } = req.body;
-    console.log("Reservation data: idFlight=", idFlight, "cuantity=", cuantity);
-    const newFlight = new Reservation({
-      idFlight,
-      idUser,
-      chairs_reserved:cuantity
-    });
-    const reservationSave = await newFlight.save();
-    console.log("Reservation saved successfully:", reservationSave);
-    res.status(201).json({ message: "Flight add", reservationSave });
-  } catch (err) {
-    console.error('Error creating reservation:', err);
-    res.status(500).json({ error: 'Error creating reservation' });
-  }
-});
+   try {
+     const token = req.cookies.token;
+     if (!token) {
+       console.log("No token provided in reservation POST");
+       return res.status(401).json({ error: "unauthorized" });
+     }
+     const decoded = jwt.verify(token, JWT_SECRET);
+     const idUser = decoded.id.toString();
+     console.log("Creating reservation for user:", idUser);
+     const { idFlight,cuantity, category } = req.body;
+     console.log("Reservation data: idFlight=", idFlight, "cuantity=", cuantity, "category=", category);
+     const newFlight = new Reservation({
+       idFlight,
+       idUser,
+       chairs_reserved:cuantity,
+       category
+     });
+     console.log("New reservation object before save:", newFlight);
+     const reservationSave = await newFlight.save();
+     console.log("Reservation saved successfully:", reservationSave);
+     res.status(201).json({ message: "Flight add", reservationSave });
+   } catch (err) {
+     console.error('Error creating reservation:', err);
+     res.status(500).json({ error: 'Error creating reservation' });
+   }
+ });
 
 // update reservation quantity
 router.put("/:idFlight",checkToken, async(req, res) => {
-  try{
-    console.log('PUT reservation: idFlight from params:', req.params.idFlight);
-    console.log('PUT reservation: body:', req.body);
+   try{
+     console.log('PUT reservation: idFlight from params:', req.params.idFlight);
+     console.log('PUT reservation: body:', req.body);
 
-    const {idFlight}=req.params;
-    const updatedData = req.body;
-    const token = req.cookies.token;
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const idUser = decoded.id;
-    let reservation=null;
-    // Buscar la reserva por idFlight y idUser
-    console.log('PUT reservation: Searching for reservation with idFlight:', idFlight, 'idUser:', idUser);
-    reservation = await Reservation.findOneAndUpdate({_id:idFlight, idUser}, updatedData, { new: true });
-    console.log('PUT reservation: Find result:', reservation);
-    if (!reservation) {
-      console.log('PUT reservation: Reservation not found');
-      return res.status(404).json({ message: `Reserva con idFlight ${idFlight} no encontrada` });
-    }
+     const {idFlight}=req.params;
+     const updatedData = req.body;
+     const token = req.cookies.token;
+     const decoded = jwt.verify(token, JWT_SECRET);
+     const idUser = decoded.id.toString();
+     let reservation=null;
+     // Buscar la reserva por idFlight y idUser
+     console.log('PUT reservation: Searching for reservation with _id:', idFlight, 'idUser:', idUser);
+     console.log('PUT reservation: Query:', {_id:idFlight, idUser});
+     console.log('PUT reservation: UpdatedData:', updatedData);
+     reservation = await Reservation.findOneAndUpdate({_id:idFlight, idUser}, updatedData, { new: true });
+     console.log('PUT reservation: Find result:', reservation);
+     if (!reservation) {
+       console.log('PUT reservation: Reservation not found');
+       return res.status(404).json({ message: `Reserva con idFlight ${idFlight} no encontrada` });
+     }
 
-    console.log('PUT reservation: Updated successfully:', reservation);
-    res.json({ message: "Cantidad actualizada", reservation });
-    console.log("Cantidad de la reserva actualizada", reservation);
-  }catch (err) {
-    console.error('Error al actualizar reserva:', err);
-    res.status(500).json({ error: 'Error al actualizar reserva' });
-  }
-});
+     console.log('PUT reservation: Updated successfully:', reservation);
+     res.json({ message: "Cantidad actualizada", reservation });
+     console.log("Cantidad de la reserva actualizada", reservation);
+   }catch (err) {
+     console.error('Error al actualizar reserva:', err);
+     res.status(500).json({ error: 'Error al actualizar reserva' });
+   }
+ });
 
 // delete flight with _id
 router.delete("/:_id", async(req, res) => {
-  try{
-    const token = req.cookies.token;
-    if (!token) {
-      return res.status(401).json({ error: "unauthorized" });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const idUser = decoded.id;
-    const { _id } = req.params;
-    console.log("Deleting reservation for _id:", _id, "idUser:", idUser);
-    const reservation = await Reservation.findById(_id);
-    if (!reservation || reservation.idUser !== idUser) {
-      return res.status(404).json({ message: `Reserva con _id ${_id} no encontrada` });
-    }
-    await Reservation.findByIdAndDelete(_id);
-    console.log("Reservation deleted:", reservation);
-    res.status(201).json({ message: `Reserva con _id ${_id} eliminada` });
-  }catch (err) {
-    console.error('Error deleting reservation:', err);
-    res.status(500).json({ error: 'Error deleting reservation' });
-  }
-});
+   try{
+     const token = req.cookies.token;
+     if (!token) {
+       return res.status(401).json({ error: "unauthorized" });
+     }
+     const decoded = jwt.verify(token, JWT_SECRET);
+     const idUser = decoded.id.toString();
+     const { _id } = req.params;
+     console.log("Deleting reservation for _id:", _id, "idUser:", idUser);
+     const reservation = await Reservation.findById(_id);
+     if (!reservation || reservation.idUser !== idUser) {
+       return res.status(404).json({ message: `Reserva con _id ${_id} no encontrada` });
+     }
+     await Reservation.findByIdAndDelete(_id);
+     console.log("Reservation deleted:", reservation);
+     res.status(201).json({ message: `Reserva con _id ${_id} eliminada` });
+   }catch (err) {
+     console.error('Error deleting reservation:', err);
+     res.status(500).json({ error: 'Error deleting reservation' });
+   }
+ });
 
 // delete  flight with id when pay
 router.delete("/payed/:_id", async(req, res) => {

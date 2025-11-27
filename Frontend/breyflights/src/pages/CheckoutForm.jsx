@@ -4,6 +4,13 @@ import { Link,useNavigate } from 'react-router-dom'
 import { useAuth } from "../context/AuthContext";
 import './css/payment.css'
 
+const getPriceMultiplier = (category) => {
+  switch (category) {
+    case 'Business': return 1.5;
+    case 'First Class': return 2;
+    default: return 1;
+  }
+};
 
 export default function CheckoutForm() {
 
@@ -114,6 +121,10 @@ export default function CheckoutForm() {
               <span className="label">Name:</span>
               <span className="value">{item.from} to {item.to}</span>
             </div>
+            <div className="summary-row">
+              <span className="label">Category:</span>
+              <span className="value">{item.category}</span>
+            </div>
 
             <div className="summary-row">
               <span className="label">Chairs:</span>
@@ -122,14 +133,14 @@ export default function CheckoutForm() {
 
             <div className="summary-row">
               <span className="label">Subtotal:</span>
-              <span className="value">${item.price * item.reserved_chairs}</span>
+              <span className="value">${(item.price * getPriceMultiplier(item.category) * item.reserved_chairs).toFixed(2)}</span>
             </div>
           </div>
         ))}
 
         <div className="summary-row total">
           <span className="label">Total:</span>
-          <span className="value">${cart.reduce((sum, item) => sum + (item.price * item.reserved_chairs), 0)}</span>
+          <span className="value">${cart.reduce((sum, item) => sum + (item.price * getPriceMultiplier(item.category) * item.reserved_chairs), 0).toFixed(2)}</span>
         </div>
       </div>
       <form onSubmit={handleSubmit} className="payment-container">

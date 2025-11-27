@@ -16,16 +16,26 @@ function Reservation() {
     const [subtotal, setSubtotal] = useState(0);
     const [cuantity, setCantidad] = useState(0);
 
+    const getPriceMultiplier = (category) => {
+        switch (category) {
+          case 'Business': return 1.5;
+          case 'First Class': return 2;
+          default: return 1;
+        }
+      };
 
     const deleteOfResevations = async (idFlight) => {
         try {
-            await fetch(`${api}/reservation/${idFlight}`, {
+            const response = await fetch(`${api}/reservation/${idFlight}`, {
             method: "DELETE",
             credentials: "include"
             });
-            setReservation((prevReservation) => prevReservation.filter((reservation) => reservation.idFlight !== idFlight));
+            if (!response.ok) {
+                throw new Error(`Delete failed with status ${response.status}`);
+            }
+            setReservation((prevReservation) => prevReservation.filter((reservation) => reservation._id !== idFlight));
             setFlight((prevFlight) => {
-                const newFlight = prevFlight.filter((item) => item.idFlight !== idFlight);
+                const newFlight = prevFlight.filter((item) => item._id !== idFlight);
                 calculateTikets(newFlight);
                 return newFlight;
             });
@@ -57,16 +67,15 @@ function Reservation() {
 
             setReservation((prevCart) => {
                 const newReservation = prevCart.map((reservation) =>
-                reservation.idFlight === idFlight ? { ...reservation, chairs_reserved: newcuantity } : reservation
+                reservation._id === idFlight ? { ...reservation, chairs_reserved: newcuantity } : reservation
             );
-            calculateTikets()
             return newReservation;
         });
 
         // Update flight state for UI
         setFlight((prevFlight) => {
             const newFlight = prevFlight.map((item) =>
-            item.idFlight === idFlight ? { ...item, reserved_chairs: newcuantity } : item
+            item._id === idFlight ? { ...item, reserved_chairs: newcuantity } : item
             );
             calculateTikets(newFlight);
             return newFlight;
@@ -81,7 +90,8 @@ function Reservation() {
         let sumCuantity = 0;
         if (tikets && tikets.length > 0) {
         tikets.forEach((item) => {
-            sumPrice += item.price * item.reserved_chairs;
+            const multiplier = getPriceMultiplier(item.category);
+            sumPrice += (item.price * multiplier) * item.reserved_chairs;
             sumCuantity += item.reserved_chairs;
         });
         }
@@ -184,7 +194,8 @@ function Reservation() {
 
                 <div className="cart-item-info">
                   <h3>Company: {item.company}</h3>
-                  <p className="price">USD {item.price} $, per person</p>
+                  <p className="category">Category: {item.category}</p>
+                  <p className="price">USD {(item.price * getPriceMultiplier(item.category)).toFixed(2)} $, per person</p>
                   <p className="available">Available: {item.chairs - item.reserved_chairs}</p>
 
                   <div className="cart-item-actions">
