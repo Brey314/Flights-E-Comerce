@@ -120,7 +120,7 @@ function Reservation() {
                 for(const items of data){
                     const flight = data2.find(f => f._id === items.idFlight);
                     if(flight){
-                        mergedReservations.push({ ...items, ...flight, reserved_chairs: items.chairs_reserved });
+                        mergedReservations.push({ ...flight, ...items, _id: items._id, reserved_chairs: items.chairs_reserved });
                     } else {
                         console.log("Reservations: No flight found for idFlight:", items.idFlight);
                     }
@@ -191,19 +191,19 @@ function Reservation() {
                     <div className="quantity">
                         <h3>Chairs: </h3>
                       <button
-                        onClick={() => changeChairs(item.idFlight, item.reserved_chairs, "-", item.chairs)}
+                        onClick={() => changeChairs(item._id, item.reserved_chairs, "-", item.chairs)}
                       >
                         -
                       </button>
                       <span>{item.reserved_chairs}</span>
                       <button
-                        onClick={() => changeChairs(item.idFlight, item.reserved_chairs, "+", item.chairs)}
+                        onClick={() => changeChairs(item._id, item.reserved_chairs, "+", item.chairs)}
                       >
                         +
                       </button>
                     </div>
                     <button
-                      onClick={() => deleteOfResevations(item.idFlight)}
+                      onClick={() => deleteOfResevations(item._id)}
                       className="delete-btn"
                     >
                       Delete

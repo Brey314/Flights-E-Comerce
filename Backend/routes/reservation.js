@@ -70,7 +70,7 @@ router.put("/:idFlight",checkToken, async(req, res) => {
     let reservation=null;
     // Buscar la reserva por idFlight y idUser
     console.log('PUT reservation: Searching for reservation with idFlight:', idFlight, 'idUser:', idUser);
-    reservation = await Reservation.findOneAndUpdate({idFlight, idUser}, updatedData, { new: true });
+    reservation = await Reservation.findOneAndUpdate({_id:idFlight, idUser}, updatedData, { new: true });
     console.log('PUT reservation: Find result:', reservation);
     if (!reservation) {
       console.log('PUT reservation: Reservation not found');
@@ -86,8 +86,8 @@ router.put("/:idFlight",checkToken, async(req, res) => {
   }
 });
 
-// delete flight with idFlight
-router.delete("/:idFlight", async(req, res) => {
+// delete flight with _id
+router.delete("/:_id", async(req, res) => {
   try{
     const token = req.cookies.token;
     if (!token) {
@@ -95,14 +95,15 @@ router.delete("/:idFlight", async(req, res) => {
     }
     const decoded = jwt.verify(token, JWT_SECRET);
     const idUser = decoded.id;
-    const { idFlight } = req.params;
-    console.log("Deleting reservation for idFlight:", idFlight, "idUser:", idUser);
-    const deleted = await Reservation.findOneAndDelete({idFlight, idUser});
-    if (!deleted) {
-      return res.status(404).json({ message: `Reserva con idFlight ${idFlight} no encontrada` });
+    const { _id } = req.params;
+    console.log("Deleting reservation for _id:", _id, "idUser:", idUser);
+    const reservation = await Reservation.findById(_id);
+    if (!reservation || reservation.idUser !== idUser) {
+      return res.status(404).json({ message: `Reserva con _id ${_id} no encontrada` });
     }
-    console.log("Reservation deleted:", deleted);
-    res.status(201).json({ message: `Reserva con idFlight ${idFlight} eliminada` });
+    await Reservation.findByIdAndDelete(_id);
+    console.log("Reservation deleted:", reservation);
+    res.status(201).json({ message: `Reserva con _id ${_id} eliminada` });
   }catch (err) {
     console.error('Error deleting reservation:', err);
     res.status(500).json({ error: 'Error deleting reservation' });

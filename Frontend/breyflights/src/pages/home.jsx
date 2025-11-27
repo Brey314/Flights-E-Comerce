@@ -33,13 +33,13 @@ function App() {
     }
   }
 
-  const addToRecerved = async (id) => {
+  const addToRecerved = async (flight) => {
     if (!user) {
       navigate("/login");
     } else {
       try {
         const resflight = {
-          idFlight: id,
+          idFlight: flight._id,
           cuantity: 1,
         };
 
@@ -73,7 +73,7 @@ function App() {
             credentials: "include"
           });
         }
-        alert(`Flight from ${resflight.from} to ${resflight.to} recerved`);
+        alert(`Flight from ${flight.from} to ${flight.to} recerved`);
       } catch (err) {
         console.error("Fail to send flight:", err);
       }
@@ -163,7 +163,7 @@ function App() {
                   <p><strong>Company:</strong> {flight.company}</p>
                   <p><strong>Chairs:</strong> {flight.chairs}</p>
                 </div>
-                <button type="button" onClick={() => addToRecerved(flight._id)}>Reservar</button>
+                <button type="button" onClick={() => addToRecerved(flight)}>Reservar</button>
               </div>
             ))
           ) : (
