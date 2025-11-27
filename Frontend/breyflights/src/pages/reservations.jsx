@@ -89,40 +89,19 @@ function Reservation() {
         setCantidad(sumCuantity);
     };
 
-    const checkout = async () => {
-        if(flight.length===0){
-            alert("No hay productos en el carrito"); 
+    const checkout = () => {
+        if (flight.length === 0) {
+            alert("No hay productos en el carrito");
             return;
         }
-        const items = flight.map(flight => ({
-            _id: flight._id,
-            flightId: flight.idFlight,
-            name: "Tiket of Flight " + flight.company + ", From: " + flight.from + ", To: "+flight.to+".",
-            unit_amount: flight.price*100,
-            quantity: flight.chairs_reserved,
-            total: subtotal,
-            currency: "USD"
-        }));
-        if (!window.confirm("")) return;
 
-        const res = await fetch(`${api}/create-checkout-session`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                items,
-                success_url: "https://localhost:3000/success/{CHECKOUT_SESSION_ID}",
-                cancel_url: "https://localhost:3000/cancel"
-            })
-        });
+        // Guardas el carrito para usarlo en /payment
+        localStorage.setItem("cart", JSON.stringify(flight));
 
-        const data = await res.json();
-        if (data.url) {
-            window.location.href = data.url; // redirige a Stripe Checkout
-        } else {
-            console.error("No session url returned", data);
-        }
+        // Rediriges a tu página interna de pago (stripe elements)
+        navigate("/payment");
     };
+
     useEffect(() => {
         console.log("Reservations: useEffect triggered, user:", user);
             const loadReservations = async () => {

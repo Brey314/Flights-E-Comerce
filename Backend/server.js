@@ -11,7 +11,7 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-//MONGO_URI=url of MongoDB Atlas, when desploy should open the ip address
+//MONGO_URI=url of MongoDB Atlas, when deploy should open the public ip address of the backend
 //PORT=5000
 //JWT_SECRET=generated in Git Bash with: openssl rand -hex 32
 //STRIPE_SECRET_KEY=key generated when create stripe account

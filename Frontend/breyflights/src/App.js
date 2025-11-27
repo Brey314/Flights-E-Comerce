@@ -6,6 +6,7 @@ import Register from './pages/register';
 import Reservation from './pages/reservations';
 import Profile from './pages/profile';
 import { AuthProvider } from './context/AuthContext';
+import Payment from './pages/payment';
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import './App.css';
@@ -48,6 +49,7 @@ function App() {
               </ProtectedRoute>   
             } 
           />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </Router>
     </AuthProvider>

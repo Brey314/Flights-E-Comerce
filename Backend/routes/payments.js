@@ -9,53 +9,50 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const api=process.env.REACT_APP_API_URL;
 // Crea una sesión de Checkout
 // Espera recibir en el body { items: [{ name, unit_amount, quantity, currency }], success_url, cancel_url }
-router.post("/create-checkout-session", async (req, res) => {
+router.post("/create-payment-intent", async (req, res) => {
   try {
-    console.log("Create checkout session called - code updated");
     const token = req.cookies.token;
     const decoded = jwt.verify(token, JWT_SECRET);
     const userId = decoded.id;
 
-    const { items, success_url, cancel_url } = req.body;
+    const { items } = req.body;
+    console.log("Received items:", items);
 
-    // Items are already with addressId
-    const processedItems = items;
-
-    // Mapear items al formato que Stripe espera
-    const line_items = processedItems.map(item => ({
-      price_data: {
-        currency: item.currency || "USD",
-        product_data: { name: item.name },
-        unit_amount: Math.round(item.unit_amount),
+    const amount = items.reduce(
+      (sum, item) => {
+        console.log(`Item: unit_amount=${item.unit_amount}, quantity=${item.quantity}`);
+        return sum + (item.unit_amount * 100) * item.quantity; // unit_amount in dollars, convert to cents
       },
-      quantity: item.quantity,
-    }));
+      0
+    );
+    console.log("Calculated amount in cents:", amount);
 
-    // Prepare metadata items with only essential fields to stay under 500 char limit
-    const metadataItems = processedItems.map(item => ({
+    // metadata compacta
+    const metadataItems = items.map(item => ({
       c: item._id,
       p: item.flightId,
       q: item.quantity,
       u: item.unit_amount
     }));
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: "usd",
+      automatic_payment_methods: { enabled: true },
       metadata: {
         items: JSON.stringify(metadataItems),
-        userId: userId
-      },
-      success_url: success_url || "http://localhost:3000/success/{CHECKOUT_SESSION_ID}",
-      cancel_url: cancel_url || "http://localhost:3000/cancel",
+        userId
+      }
     });
 
-    // Devuelvo la url para redirigir
-    res.json({ url: session.url, id: session.id });
+    console.log("DEBUG: Payment intent created successfully:", paymentIntent.id, "status:", paymentIntent.status, "client_secret:", paymentIntent.client_secret ? "present" : "null");
+
+    res.send({
+      clientSecret: paymentIntent.client_secret
+    });
   } catch (err) {
-    console.error("Error creating checkout session:", err);
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).send({ error: err.message });
   }
 });
 
@@ -87,8 +84,9 @@ router.post("/webhook", async (req, res) => {
   }
 
   // Manejar evento de pago completado
-  if (event.type === "checkout.session.completed") {
+  if (event.type === "payment_intent.succeeded") {
     const session = event.data.object;
+    console.log("DEBUG: Webhook received payment_intent.succeeded, id:", session.id, "status:", session.status);
     console.log(session);
     // session contiene: id, amount_total, currency, customer_details, metadata, etc.
     console.log("Checkout session completed:", session.id);
