@@ -42,7 +42,8 @@ export default function PaymentPage() {
           unit_amount: adjustedPrice,
           quantity: item.reserved_chairs,
           name: `${item.company}: ${item.from}-${item.to}`,
-          currency: 'usd'
+          currency: 'usd',
+          category: item.category
         };
       });
 

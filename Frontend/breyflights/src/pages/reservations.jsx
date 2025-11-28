@@ -24,13 +24,14 @@ function Reservation() {
         }
       };
 
-    const getAvailable = (chairs, category) => {
-        const percentages = {
-          'Economy': 0.75,
-          'Business': 0.20,
-          'First Class': 0.025
-        };
-        return Math.round(chairs * percentages[category]);
+    const getAvailable = (flight, category) => {
+        if(category==="Economy"){
+            return flight.chairs;
+        }else if(category==="Business"){
+            return flight.chair_business;
+        }else{
+            return 0;
+        }
       };
 
     const deleteOfResevations = async (idFlight) => {
@@ -57,7 +58,7 @@ function Reservation() {
     const changeChairs = async (idFlight, reserved_chairs, op, item) => {
         try {
             let newcuantity = reserved_chairs;
-            const available = getAvailable(item.chairs, item.category);
+            const available = getAvailable(item, item.category);
             if (op === "+") {
                 if (newcuantity >= available) {
                     return;
@@ -207,7 +208,7 @@ function Reservation() {
                   <h3>Company: {item.company}</h3>
                   <p className="category">Category: {item.category}</p>
                   <p className="price">USD {(item.price * getPriceMultiplier(item.category)).toFixed(2)} $, per person</p>
-                  <p className="available">Available: {getAvailable(item.chairs, item.category)}</p>
+                  <p className="available">Available: {getAvailable(item, item.category)}</p>
 
                   <div className="cart-item-actions">
                     <div className="quantity">

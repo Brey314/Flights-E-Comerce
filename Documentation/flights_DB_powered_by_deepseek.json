@@ -7,9 +7,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Iberia",
-    "chairs": 180,
+    "chairs": 156,
     "flight_date": "2026-06-15",
-    "flight_time": "08:30"
+    "flight_time": "08:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "New York",
@@ -19,9 +21,11 @@
     "scale2": "",
     "scale3": "",
     "company": "British Airways",
-    "chairs": 220,
+    "chairs": 156,
     "flight_date": "2026-06-20",
-    "flight_time": "14:15"
+    "flight_time": "14:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Paris",
@@ -31,9 +35,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Emirates",
-    "chairs": 300,
+    "chairs": 156,
     "flight_date": "2026-07-05",
-    "flight_time": "09:45"
+    "flight_time": "09:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Los Angeles",
@@ -43,9 +49,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Qantas",
-    "chairs": 280,
+    "chairs": 156,
     "flight_date": "2026-06-25",
-    "flight_time": "22:30"
+    "flight_time": "22:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Berlin",
@@ -55,9 +63,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Lufthansa",
-    "chairs": 150,
+    "chairs": 156,
     "flight_date": "2026-07-10",
-    "flight_time": "11:20"
+    "flight_time": "11:20",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Dubai",
@@ -67,9 +77,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Emirates",
-    "chairs": 260,
+    "chairs": 156,
     "flight_date": "2026-06-18",
-    "flight_time": "03:45"
+    "flight_time": "03:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Mexico City",
@@ -79,9 +91,11 @@
     "scale2": "",
     "scale3": "",
     "company": "American Airlines",
-    "chairs": 170,
+    "chairs": 156,
     "flight_date": "2026-07-02",
-    "flight_time": "16:10"
+    "flight_time": "16:10",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Toronto",
@@ -91,9 +105,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Air Canada",
-    "chairs": 160,
+    "chairs": 156,
     "flight_date": "2026-06-28",
-    "flight_time": "13:25"
+    "flight_time": "13:25",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "São Paulo",
@@ -103,9 +119,11 @@
     "scale2": "",
     "scale3": "",
     "company": "TAP Portugal",
-    "chairs": 240,
+    "chairs": 156,
     "flight_date": "2026-07-08",
-    "flight_time": "19:40"
+    "flight_time": "19:40",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Amsterdam",
@@ -115,9 +133,11 @@
     "scale2": "",
     "scale3": "",
     "company": "KLM",
-    "chairs": 290,
+    "chairs": 156,
     "flight_date": "2026-06-22",
-    "flight_time": "10:15"
+    "flight_time": "10:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Istanbul",
@@ -127,9 +147,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Turkish Airlines",
-    "chairs": 210,
+    "chairs": 156,
     "flight_date": "2026-07-12",
-    "flight_time": "14:50"
+    "flight_time": "14:50",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Seoul",
@@ -139,9 +161,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Korean Air",
-    "chairs": 230,
+    "chairs": 156,
     "flight_date": "2026-06-30",
-    "flight_time": "18:20"
+    "flight_time": "18:20",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Chicago",
@@ -151,9 +175,11 @@
     "scale2": "",
     "scale3": "",
     "company": "United Airlines",
-    "chairs": 175,
+    "chairs": 156,
     "flight_date": "2026-07-15",
-    "flight_time": "07:45"
+    "flight_time": "07:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Moscow",
@@ -163,9 +189,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Aeroflot",
-    "chairs": 250,
+    "chairs": 156,
     "flight_date": "2026-07-03",
-    "flight_time": "12:30"
+    "flight_time": "12:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Buenos Aires",
@@ -175,9 +203,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Iberia",
-    "chairs": 270,
+    "chairs": 156,
     "flight_date": "2026-06-19",
-    "flight_time": "21:15"
+    "flight_time": "21:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Cairo",
@@ -187,9 +217,11 @@
     "scale2": "",
     "scale3": "",
     "company": "EgyptAir",
-    "chairs": 140,
+    "chairs": 156,
     "flight_date": "2026-07-07",
-    "flight_time": "15:40"
+    "flight_time": "15:40",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Delhi",
@@ -199,9 +231,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Air India",
-    "chairs": 200,
+    "chairs": 156,
     "flight_date": "2026-06-24",
-    "flight_time": "23:10"
+    "flight_time": "23:10",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Athens",
@@ -211,9 +245,11 @@
     "scale2": "",
     "scale3": "",
     "company": "British Airways",
-    "chairs": 165,
+    "chairs": 156,
     "flight_date": "2026-07-11",
-    "flight_time": "06:55"
+    "flight_time": "06:55",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Hong Kong",
@@ -223,9 +259,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Cathay Pacific",
-    "chairs": 190,
+    "chairs": 156,
     "flight_date": "2026-06-26",
-    "flight_time": "17:25"
+    "flight_time": "17:25",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Sydney",
@@ -235,9 +273,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Qantas",
-    "chairs": 155,
+    "chairs": 156,
     "flight_date": "2026-07-14",
-    "flight_time": "20:05"
+    "flight_time": "20:05",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Bangkok",
@@ -247,9 +287,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Thai Airways",
-    "chairs": 205,
+    "chairs": 156,
     "flight_date": "2026-06-21",
-    "flight_time": "13:15"
+    "flight_time": "13:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Miami",
@@ -259,9 +301,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Avianca",
-    "chairs": 160,
+    "chairs": 156,
     "flight_date": "2026-07-06",
-    "flight_time": "09:30"
+    "flight_time": "09:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Vienna",
@@ -271,9 +315,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Austrian Airlines",
-    "chairs": 120,
+    "chairs": 156,
     "flight_date": "2026-06-29",
-    "flight_time": "11:45"
+    "flight_time": "11:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Johannesburg",
@@ -283,9 +329,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Ethiopian Airlines",
-    "chairs": 235,
+    "chairs": 156,
     "flight_date": "2026-07-13",
-    "flight_time": "04:20"
+    "flight_time": "04:20",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Stockholm",
@@ -295,9 +343,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Finnair",
-    "chairs": 130,
+    "chairs": 156,
     "flight_date": "2026-06-17",
-    "flight_time": "15:10"
+    "flight_time": "15:10",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Dublin",
@@ -307,9 +357,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Aer Lingus",
-    "chairs": 245,
+    "chairs": 156,
     "flight_date": "2026-07-09",
-    "flight_time": "08:00"
+    "flight_time": "08:00",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Warsaw",
@@ -319,9 +371,11 @@
     "scale2": "",
     "scale3": "",
     "company": "LOT Polish",
-    "chairs": 110,
+    "chairs": 156,
     "flight_date": "2026-06-23",
-    "flight_time": "12:35"
+    "flight_time": "12:35",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Shanghai",
@@ -331,9 +385,11 @@
     "scale2": "",
     "scale3": "",
     "company": "China Eastern",
-    "chairs": 185,
+    "chairs": 156,
     "flight_date": "2026-07-16",
-    "flight_time": "19:50"
+    "flight_time": "19:50",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Lima",
@@ -343,9 +399,11 @@
     "scale2": "",
     "scale3": "",
     "company": "LATAM",
-    "chairs": 145,
+    "chairs": 156,
     "flight_date": "2026-06-27",
-    "flight_time": "10:25"
+    "flight_time": "10:25",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Brussels",
@@ -355,9 +413,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Brussels Airlines",
-    "chairs": 125,
+    "chairs": 156,
     "flight_date": "2026-07-04",
-    "flight_time": "14:15"
+    "flight_time": "14:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Mumbai",
@@ -367,9 +427,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Emirates",
-    "chairs": 195,
+    "chairs": 156,
     "flight_date": "2026-07-17",
-    "flight_time": "02:30"
+    "flight_time": "02:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Oslo",
@@ -379,9 +441,11 @@
     "scale2": "",
     "scale3": "",
     "company": "SAS",
-    "chairs": 135,
+    "chairs": 156,
     "flight_date": "2026-06-16",
-    "flight_time": "16:45"
+    "flight_time": "16:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Manila",
@@ -391,9 +455,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Philippine Airlines",
-    "chairs": 255,
+    "chairs": 156,
     "flight_date": "2026-07-18",
-    "flight_time": "22:10"
+    "flight_time": "22:10",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Zurich",
@@ -403,9 +469,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Swiss International",
-    "chairs": 150,
+    "chairs": 156,
     "flight_date": "2026-06-14",
-    "flight_time": "07:20"
+    "flight_time": "07:20",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Kuala Lumpur",
@@ -415,9 +483,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Malaysia Airlines",
-    "chairs": 165,
+    "chairs": 156,
     "flight_date": "2026-07-19",
-    "flight_time": "13:40"
+    "flight_time": "13:40",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Rome",
@@ -427,9 +497,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Alitalia",
-    "chairs": 140,
+    "chairs": 156,
     "flight_date": "2026-06-13",
-    "flight_time": "18:15"
+    "flight_time": "18:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Boston",
@@ -439,9 +511,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Delta",
-    "chairs": 170,
+    "chairs": 156,
     "flight_date": "2026-07-20",
-    "flight_time": "11:05"
+    "flight_time": "11:05",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Doha",
@@ -451,9 +525,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Qatar Airways",
-    "chairs": 215,
+    "chairs": 156,
     "flight_date": "2026-06-12",
-    "flight_time": "20:35"
+    "flight_time": "20:35",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Lisbon",
@@ -463,9 +539,11 @@
     "scale2": "",
     "scale3": "",
     "company": "TAP Portugal",
-    "chairs": 265,
+    "chairs": 156,
     "flight_date": "2026-07-21",
-    "flight_time": "23:45"
+    "flight_time": "23:45",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Seattle",
@@ -475,9 +553,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Alaska Airlines",
-    "chairs": 155,
+    "chairs": 156,
     "flight_date": "2026-06-11",
-    "flight_time": "09:15"
+    "flight_time": "09:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Bangalore",
@@ -487,9 +567,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Emirates",
-    "chairs": 200,
+    "chairs": 156,
     "flight_date": "2026-07-22",
-    "flight_time": "01:20"
+    "flight_time": "01:20",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Vancouver",
@@ -499,9 +581,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Air Canada",
-    "chairs": 175,
+    "chairs": 156,
     "flight_date": "2026-06-10",
-    "flight_time": "12:50"
+    "flight_time": "12:50",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Barcelona",
@@ -511,9 +595,11 @@
     "scale2": "",
     "scale3": "",
     "company": "KLM",
-    "chairs": 160,
+    "chairs": 156,
     "flight_date": "2026-07-23",
-    "flight_time": "15:30"
+    "flight_time": "15:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Singapore",
@@ -523,9 +609,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Singapore Airlines",
-    "chairs": 185,
+    "chairs": 156,
     "flight_date": "2026-06-09",
-    "flight_time": "17:05"
+    "flight_time": "17:05",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Mexico City",
@@ -535,9 +623,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Aeroméxico",
-    "chairs": 145,
+    "chairs": 156,
     "flight_date": "2026-07-24",
-    "flight_time": "08:40"
+    "flight_time": "08:40",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Copenhagen",
@@ -547,9 +637,11 @@
     "scale2": "",
     "scale3": "",
     "company": "SAS",
-    "chairs": 130,
+    "chairs": 156,
     "flight_date": "2026-06-08",
-    "flight_time": "10:55"
+    "flight_time": "10:55",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Tokyo",
@@ -559,9 +651,11 @@
     "scale2": "",
     "scale3": "",
     "company": "ANA",
-    "chairs": 150,
+    "chairs": 156,
     "flight_date": "2026-07-25",
-    "flight_time": "14:25"
+    "flight_time": "14:25",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Madrid",
@@ -571,9 +665,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Air France",
-    "chairs": 155,
+    "chairs": 156,
     "flight_date": "2026-06-07",
-    "flight_time": "19:10"
+    "flight_time": "19:10",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "London",
@@ -583,9 +679,11 @@
     "scale2": "",
     "scale3": "",
     "company": "British Airways",
-    "chairs": 140,
+    "chairs": 156,
     "flight_date": "2026-07-26",
-    "flight_time": "07:30"
+    "flight_time": "07:30",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "Dubai",
@@ -595,9 +693,11 @@
     "scale2": "",
     "scale3": "",
     "company": "Emirates",
-    "chairs": 195,
+    "chairs": 156,
     "flight_date": "2026-06-06",
-    "flight_time": "03:15"
+    "flight_time": "03:15",
+    "static_chairs": 180,
+    "chair_business": 18
   },
   {
     "from": "New York",
@@ -607,8 +707,10 @@
     "scale2": "",
     "scale3": "",
     "company": "JetBlue",
-    "chairs": 180,
+    "chairs": 156,
     "flight_date": "2026-07-27",
-    "flight_time": "16:20"
+    "flight_time": "16:20",
+    "static_chairs": 180,
+    "chair_business": 18
   }
 ]

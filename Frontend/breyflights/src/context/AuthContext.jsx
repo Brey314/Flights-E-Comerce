@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    localStorage.removeItem("cart");
     try {
       const resp = await fetch(`${api}/api/users/logout`, {
         method: "POST",

@@ -35,13 +35,23 @@ router.get('/', async (req, res) => {
 router.put('/:id/stock', async (req, res) => {
   try {
     const { id } = req.params;
-    const { chairs } = req.body;
+    const { chairs, category } = req.body;
     const flight = await Flights.findById(id);
     if (!flight) return res.status(404).json({ error: 'Flight Notfound' });
-    if (flight.chairs < chairs) return res.status(400).json({ error: 'No chairs enough' });
-    flight.chairs -= chairs;
+
+    let stockField;
+    if (category === 'Business') {
+      stockField = 'chair_business';
+    } else if (category === 'Economy') {
+      stockField = 'chairs';
+    } else {
+      return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    if (flight[stockField] < chairs) return res.status(400).json({ error: `No ${category} chairs enough` });
+    flight[stockField] -= chairs;
     await flight.save();
-    res.json({ message: 'Chairs update', chairs: flight.chairs });
+    res.json({ message: `${category} chairs updated`, [stockField]: flight[stockField] });
   } catch (err) {
     res.status(500).json({ error: 'Error updating chairs' });
   }

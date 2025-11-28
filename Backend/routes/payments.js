@@ -36,7 +36,8 @@ router.post("/create-payment-intent", async (req, res) => {
       q: item.quantity,
       u: item.unit_amount,
       e: item.email,
-      n: item.name
+      n: item.name,
+      cat: item.category
     }));
     const metadataString = JSON.stringify(metadataItems);
 
@@ -105,7 +106,8 @@ router.post("/webhook", async (req, res) => {
       chairs_reserved: i.q,
       unit_amount: i.u,
       email: i.e,
-      name: i.n
+      name: i.n,
+      category: i.cat
     }));
     const userId = session.metadata.userId;
     console.log("Tikets:", items);
@@ -123,10 +125,11 @@ router.post("/webhook", async (req, res) => {
         await axios.put(
           `${api}/flights/${item.flightId}/stock`,
             {
-              chairs: item.chairs_reserved
+              chairs: item.chairs_reserved,
+              category: item.category
             }
         );
-        console.log(` Stock update for ${item.flightId}`);
+        console.log(` Stock update for ${item.flightId} in category ${item.category}`);
 
       }catch(err){
         console.error(" Error updating stock:", err.response?.data || err.message);
@@ -151,7 +154,7 @@ router.post("/webhook", async (req, res) => {
           subject: `Payment Confirmation of your ${item.name} in BreyFlights`,
           text: `Thank you for your purchase with BreyFlights! Your payment has been successfully processed. Here are your ticket details:
             🛫 Flight: ${item.name}
-            💺 Reserved seats: ${item.chairs_reserved}
+            💺 Reserved seats in ${item.category}: ${item.chairs_reserved}
             💵 Total paid: $${item.unit_amount}
             📘 Internal code: ${item._id}
 

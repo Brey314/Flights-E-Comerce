@@ -28,13 +28,14 @@ function App() {
     return (parseFloat(basePrice) * multiplier).toFixed(2);
   };
 
-  const getAvailable = (chairs, category) => {
-    const percentages = {
-      'Economy': 0.75,
-      'Business': 0.20,
-      'First Class': 0.025
-    };
-    return Math.round(chairs * percentages[category]);
+  const getAvailable = (flight, category) => {
+    if(category==="Economy"){
+      return flight.chairs;
+    }else if(category==="Business"){
+      return flight.chair_business;
+    }else{
+      return 0;
+    }
   };
 
   const handleSearch = async (e) => {
@@ -64,6 +65,10 @@ function App() {
     if (!user) {
       navigate("/login");
     } else {
+      if(category==="First Class" || (flight.chairs===0 && category=="Economy") || (flight.chair_business===0 && category=="Business")){
+        alert("There aren't chairs available");
+        return;
+      }
       try {
         const resflight = {
           idFlight: flight._id,
@@ -229,9 +234,9 @@ function App() {
                     <p><strong>Time:</strong> {flight.flight_time}</p>
                     <p><strong>Price:</strong> ${calculatePrice(flight.price, category)}</p>
                     <p><strong>Company:</strong> {flight.company}</p>
-                    <p><strong>Available:</strong> {getAvailable(flight.chairs, category)}</p>
+                    <p><strong>Available:</strong> {getAvailable(flight, category)}</p>
                   </div>
-                <button type="button" onClick={() => addToRecerved(flight)}>Reservar</button>
+                <button type="button" onClick={() => addToRecerved(flight)}>Book</button>
                 </div>
               ))
             ) : (
