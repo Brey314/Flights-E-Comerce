@@ -19,6 +19,7 @@ export default function SuccessPage() {
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        console.log(storedCart);
         setCart(storedCart);
     }, []);
 
@@ -113,7 +114,7 @@ export default function SuccessPage() {
 
                             <div className="summary-row">
                                 <span className="label">Chairs:</span>
-                                <span className="value">{item.reserved_chairs}</span>
+                                <span className="value">{item.reserved_chairs}: {item.selectedSeats.join(', ')}</span>
                             </div>
                         </div>
                         ))}

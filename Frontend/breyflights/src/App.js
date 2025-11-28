@@ -65,7 +65,8 @@ function App() {
                 <Payment />
               </ProtectedRoute>  
               } 
-            />
+            /> 
+
         </Routes>
       </Router>
     </AuthProvider>

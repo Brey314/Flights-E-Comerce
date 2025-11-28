@@ -1,6 +1,7 @@
 import { useEffect,useState} from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useAuth } from "../context/AuthContext";
+import SeatSelection from './selectChair';
 import './css/reservation.css'
 
 const api="http://localhost:5000/api";
@@ -13,8 +14,11 @@ function Reservation() {
     const [reservation, setReservation] = useState([]);
     const [flight, setFlight] = useState([]);
 
+
     const [subtotal, setSubtotal] = useState(0);
     const [cuantity, setCantidad] = useState(0);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedFlightId, setSelectedFlight] = useState(null);
 
     const getPriceMultiplier = (category) => {
         switch (category) {
@@ -111,14 +115,29 @@ function Reservation() {
         setCantidad(sumCuantity);
     };
 
+    const getSelectedSeats = (flightId) => {
+        const seats = localStorage.getItem(`selectedSeats_${flightId}`);
+
+        return seats ? JSON.parse(seats) : [];
+    };
+
     const checkout = () => {
         if (flight.length === 0) {
             alert("There's aren't flights reserved");
             return;
         }
 
-        // Guardas el carrito para usarlo en /payment
-        localStorage.setItem("cart", JSON.stringify(flight));
+        // Add the selected seats
+        const cart = flight.map(item => ({
+            ...item,
+            selectedSeats: getSelectedSeats(item._id)
+        }));
+        const hasAllSeats = cart.every(item => item.selectedSeats.length === item.reserved_chairs);
+        if (!hasAllSeats){
+            alert("Select the available seats");
+            return
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
 
         // Rediriges a tu página interna de pago (stripe elements)
         navigate("/payment");
@@ -142,7 +161,7 @@ function Reservation() {
                 for(const items of data){
                     const flight = data2.find(f => f._id === items.idFlight);
                     if(flight){
-                        mergedReservations.push({ ...flight, ...items, _id: items._id, reserved_chairs: items.chairs_reserved });
+                        mergedReservations.push({ ...flight, ...items, _id: items._id, reserved_chairs: items.chairs_reserved, chairs_selected: items.chairs_selected});
                     } else {
                         console.log("Reservations: No flight found for idFlight:", items.idFlight);
                     }
@@ -206,7 +225,7 @@ function Reservation() {
 
                 <div className="cart-item-info">
                   <h3>Company: {item.company}</h3>
-                  <p className="category">Category: {item.category}</p>
+                  <p className="category">Category: {item.category} {getSelectedSeats(item._id).length > 0 && ` - Seats: ${getSelectedSeats(item._id).join(', ')}`}</p>
                   <p className="price">USD {(item.price * getPriceMultiplier(item.category)).toFixed(2)} $, per person</p>
                   <p className="available">Available: {getAvailable(item, item.category)}</p>
 
@@ -225,6 +244,12 @@ function Reservation() {
                         +
                       </button>
                     </div>
+                    <button
+                      onClick={() => { console.log('Setting selectedFlightId:', item); setModalOpen(true); setSelectedFlight(item); }}
+                      className="select-seats-btn"
+                    >
+                      Select Seats
+                    </button>
                     <button
                       onClick={() => deleteOfResevations(item._id)}
                       className="delete-btn"
@@ -249,6 +274,23 @@ function Reservation() {
                 </div>
             </div>
         </main>
+        {modalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <SeatSelection
+                flightId={selectedFlightId.idFlight}
+                category={selectedFlightId.category}
+                maxSeats={selectedFlightId.reserved_chairs}
+                onConfirm={(seats) => {
+                  localStorage.setItem(`selectedSeats_${selectedFlightId._id}`, JSON.stringify(seats));
+                  setModalOpen(false);
+                }}
+                onClose={() => setModalOpen(false)}
+                buttonText="Confirm Seats"
+              />
+            </div>
+          </div>
+        )}
         </>
     );
 }

@@ -26,7 +26,7 @@ export default function ProtectedRoute({ children }) {
   if (!user && !location.pathname.startsWith("/login") && !location.pathname.startsWith("/register")) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
-  if ((!user || !id) && location.pathname.startsWith("/success")){
+  if ((!user || !id) &&location.pathname.startsWith("/success") ){
     return <Navigate to="/" replace />;
   }
   if ((!user || !id) && location.pathname.startsWith("/payment") && cart.length === 0){

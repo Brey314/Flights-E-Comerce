@@ -37,7 +37,8 @@ router.post("/create-payment-intent", async (req, res) => {
       u: item.unit_amount,
       e: item.email,
       n: item.name,
-      cat: item.category
+      ca: item.category,
+      s: item.seats
     }));
     const metadataString = JSON.stringify(metadataItems);
 
@@ -107,7 +108,8 @@ router.post("/webhook", async (req, res) => {
       unit_amount: i.u,
       email: i.e,
       name: i.n,
-      category: i.cat
+      category: i.ca,
+      selectedSeats:i.s
     }));
     const userId = session.metadata.userId;
     console.log("Tikets:", items);
@@ -144,6 +146,19 @@ router.post("/webhook", async (req, res) => {
       }catch(err){
         console.error(" Error updating resevations:", err.response?.data || err.message);
       }
+
+      try{
+        await axios.post(
+          `${api}/flights/${item.flightId}/select-seats`,
+          {
+            seats: item.selectedSeats
+          }
+        );
+        console.log(` Selected seats updated for flight ${item.flightId}: ${item.selectedSeats.join(', ')}`);
+      }catch(err){
+        console.error(" Error updating selected seats:", err.response?.data || err.message);
+      }
+
       try {
 // sgMail.setDataResidency('eu'); 
 // uncomment the above line if you are sending mail using a regional EU subuser
@@ -154,7 +169,7 @@ router.post("/webhook", async (req, res) => {
           subject: `Payment Confirmation of your ${item.name} in BreyFlights`,
           text: `Thank you for your purchase with BreyFlights! Your payment has been successfully processed. Here are your ticket details:
             🛫 Flight: ${item.name}
-            💺 Reserved seats in ${item.category}: ${item.chairs_reserved}
+            💺 Reserved seats in ${item.category}: ${item.chairs_reserved}, ${item.selectedSeats}
             💵 Total paid: $${item.unit_amount}
             📘 Internal code: ${item._id}
 

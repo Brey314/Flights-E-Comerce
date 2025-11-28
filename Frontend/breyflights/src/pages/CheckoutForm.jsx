@@ -123,8 +123,8 @@ export default function CheckoutForm() {
               <span className="value">{item.from} to {item.to}</span>
             </div>
             <div className="summary-row">
-              <span className="label">Category:</span>
-              <span className="value">{item.category}</span>
+              <span className="label">Seats:</span>
+              <span className="value">{item.category}: {item.selectedSeats.join(', ')}</span>
             </div>
 
             <div className="summary-row">

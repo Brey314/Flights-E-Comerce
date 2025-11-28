@@ -29,21 +29,22 @@ export default function PaymentPage() {
         return;
       }
       const cart = JSON.parse(localStorage.getItem("cart"));
-      console.log("Cart:", cart);
       let eemail=user.email;
       // Map cart items to expected format for backend
       const items = cart.map(item => {
         const multiplier = getPriceMultiplier(item.category);
         const adjustedPrice = item.price * multiplier;
+        const quantity = item.selectedSeats && item.selectedSeats.length > 0 ? item.selectedSeats.length : item.reserved_chairs;
         return {
           _id: item._id,
           flightId: item.idFlight,
           email: eemail,
           unit_amount: adjustedPrice,
-          quantity: item.reserved_chairs,
+          quantity: quantity,
           name: `${item.company}: ${item.from}-${item.to}`,
           currency: 'usd',
-          category: item.category
+          category: item.category,
+          seats:item.selectedSeats
         };
       });
 
