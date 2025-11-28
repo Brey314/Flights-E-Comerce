@@ -41,7 +41,7 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://localhost:3000/success"
+        return_url: "http://localhost:3000/success"
       }
     });
 
@@ -65,7 +65,6 @@ export default function CheckoutForm() {
         logout();
         window.location.href = "/login"; 
       }, 15*1000*60);
-      console.log(timer);
     };
 
     window.addEventListener("keypress", resetTimer);
@@ -118,7 +117,7 @@ export default function CheckoutForm() {
 
         {cart.map((item, index) => (
           <div key={index} className="item-summary">
-            
+            ____________________________________________________
             <div className="summary-row">
               <span className="label">Name:</span>
               <span className="value">{item.from} to {item.to}</span>

@@ -9,8 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const api=process.env.REACT_APP_API_URL;
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-// Crea una sesión de Checkout
-// Espera recibir en el body { items: [{ name, unit_amount, quantity, currency }], success_url, cancel_url }
+
 router.post("/create-payment-intent", async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -62,13 +61,16 @@ router.post("/create-payment-intent", async (req, res) => {
   }
 });
 
-// Retrieve session details
+// Retrieve payment intent details
 router.get("/payment/session/:id", async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.retrieve(req.params.id);
+    console.log("DEBUG: Retrieving payment intent with ID:", req.params.id);
+    const session = await stripe.paymentIntents.retrieve(req.params.id);
+    console.log("DEBUG: Payment intent retrieved successfully:", session.id, "status:", session.status);
     res.json(session);
   } catch (err) {
-    console.error("Error retrieving session:", err);
+    console.error("Error retrieving payment intent:", err);
+    console.error("DEBUG: Failed ID:", req.params.id);
     res.status(500).json({ error: err.message });
   }
 });

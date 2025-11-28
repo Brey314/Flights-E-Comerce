@@ -101,6 +101,7 @@ function App() {
             credentials: "include"
           });
         }
+        navigate("/reservation")
         alert(`Flight from ${flight.from} to ${flight.to} recerved`);
       } catch (err) {
         console.error("Fail to send flight:", err);

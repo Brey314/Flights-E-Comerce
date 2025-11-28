@@ -25,9 +25,8 @@ export default function Login() {
       if (!resp.ok) throw new Error(data.error);
 
       login(data.user);
-
       alert("Inicio de sesión exitoso");
-      navigate("/");
+      
     } catch (err) {
       alert(err.message || "Error en el inicio de sesión");
     }

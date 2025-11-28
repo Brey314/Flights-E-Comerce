@@ -48,6 +48,7 @@ function Reservation() {
                 calculateTikets(newFlight);
                 return newFlight;
             });
+            localStorage.removeItem('cart');
         } catch (err) {
             console.error("Error eliminando reserva:", err);
         }

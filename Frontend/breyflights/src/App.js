@@ -8,6 +8,7 @@ import Profile from './pages/profile';
 import { AuthProvider } from './context/AuthContext';
 import Payment from './pages/payment';
 import ProtectedRoute from "./components/ProtectedRoute";
+import SuccessPage from "./pages/successPage";
 
 import './App.css';
 
@@ -49,7 +50,22 @@ function App() {
               </ProtectedRoute>   
             } 
           />
-          <Route path="/payment" element={<Payment />} />
+          <Route 
+            path="/success" 
+            element={
+            <ProtectedRoute>
+                <SuccessPage />
+            </ProtectedRoute>  
+            } 
+          />
+          <Route 
+            path="/payment" 
+            element={
+              <ProtectedRoute>
+                <Payment />
+              </ProtectedRoute>  
+              } 
+            />
         </Routes>
       </Router>
     </AuthProvider>
