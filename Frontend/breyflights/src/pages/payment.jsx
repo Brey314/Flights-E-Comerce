@@ -23,7 +23,13 @@ export default function PaymentPage() {
 
   useEffect(() => {
     async function createIntent() {
+      console.log("User:", user);
+      if (!user) {
+        console.error("User not logged in");
+        return;
+      }
       const cart = JSON.parse(localStorage.getItem("cart"));
+      console.log("Cart:", cart);
       let eemail=user.email;
       // Map cart items to expected format for backend
       const items = cart.map(item => {
@@ -35,7 +41,7 @@ export default function PaymentPage() {
           email: eemail,
           unit_amount: adjustedPrice,
           quantity: item.reserved_chairs,
-          name: `Flight of ${item.company}, From: ${item.from}, To: ${item.to}`,
+          name: `${item.company}: ${item.from}-${item.to}`,
           currency: 'usd'
         };
       });

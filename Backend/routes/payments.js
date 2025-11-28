@@ -40,12 +40,16 @@ router.post("/create-payment-intent", async (req, res) => {
       n: item.name
     }));
 
+    const metadataString = JSON.stringify(metadataItems);
+    console.log("Metadata items string length:", metadataString.length);
+    console.log("Metadata string:", metadataString);
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
-        items: JSON.stringify(metadataItems),
+        items: metadataString,
         userId
       }
     });

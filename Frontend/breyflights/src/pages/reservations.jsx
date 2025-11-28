@@ -24,6 +24,15 @@ function Reservation() {
         }
       };
 
+    const getAvailable = (price, category) => {
+        const percentages = {
+          'Economy': 0.75,
+          'Business': 0.20,
+          'First Class': 0.025
+        };
+        return Math.round(price * percentages[category]);
+      };
+
     const deleteOfResevations = async (idFlight) => {
         try {
             const response = await fetch(`${api}/reservation/${idFlight}`, {
@@ -44,11 +53,12 @@ function Reservation() {
         }
     };
 
-    const changeChairs = async (idFlight, reserved_chairs, op, total_chairs) => {
+    const changeChairs = async (idFlight, reserved_chairs, op, item) => {
         try {
             let newcuantity = reserved_chairs;
+            const available = getAvailable(item.price, item.category);
             if (op === "+") {
-                if (newcuantity >= total_chairs) {
+                if (newcuantity >= available) {
                     return;
                 }
                 newcuantity++;
@@ -196,19 +206,19 @@ function Reservation() {
                   <h3>Company: {item.company}</h3>
                   <p className="category">Category: {item.category}</p>
                   <p className="price">USD {(item.price * getPriceMultiplier(item.category)).toFixed(2)} $, per person</p>
-                  <p className="available">Available: {item.chairs - item.reserved_chairs}</p>
+                  <p className="available">Available: {getAvailable(item.price, item.category)}</p>
 
                   <div className="cart-item-actions">
                     <div className="quantity">
                         <h3>Chairs: </h3>
                       <button
-                        onClick={() => changeChairs(item._id, item.reserved_chairs, "-", item.chairs)}
+                        onClick={() => changeChairs(item._id, item.reserved_chairs, "-", item)}
                       >
                         -
                       </button>
                       <span>{item.reserved_chairs}</span>
                       <button
-                        onClick={() => changeChairs(item._id, item.reserved_chairs, "+", item.chairs)}
+                        onClick={() => changeChairs(item._id, item.reserved_chairs, "+", item)}
                       >
                         +
                       </button>

@@ -28,6 +28,15 @@ function App() {
     return (parseFloat(basePrice) * multiplier).toFixed(2);
   };
 
+  const getAvailable = (price, category) => {
+    const percentages = {
+      'Economy': 0.75,
+      'Business': 0.20,
+      'First Class': 0.025
+    };
+    return Math.round(price * percentages[category]);
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault()
     const params = new URLSearchParams()
@@ -70,7 +79,7 @@ function App() {
           console.error("Unexpected server response:", data);
         return;
         }
-        const exist = data.find((item) => item.idFlight === resflight.idFlight);
+        const exist = data.find((item) => item.idFlight === resflight.idFlight && item.category === resflight.category);
 
 
         if (exist) {
@@ -219,7 +228,7 @@ function App() {
                     <p><strong>Time:</strong> {flight.flight_time}</p>
                     <p><strong>Price:</strong> ${calculatePrice(flight.price, category)}</p>
                     <p><strong>Company:</strong> {flight.company}</p>
-                    <p><strong>Chairs:</strong> {flight.chairs}</p>
+                    <p><strong>Available:</strong> {getAvailable(flight.price, category)}</p>
                   </div>
                 <button type="button" onClick={() => addToRecerved(flight)}>Reservar</button>
                 </div>

@@ -1,10 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const Reservation = require('../models/reservation');
+const Flights = require('../models/flights');
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const checkToken = require('../middleware/auth');
 const JWT_SECRET = process.env.JWT_SECRET;
+
+const getAvailable = (price, category) => {
+  const percentages = {
+    'Economy': 0.75,
+    'Business': 0.20,
+    'First Class': 0.025
+  };
+  return Math.round(price * percentages[category]);
+};
 
 // Get flight in reservations
 router.get("/", async(req, res) => {
@@ -42,6 +52,25 @@ router.post("/", async(req, res) => {
      console.log("Creating reservation for user:", idUser);
      const { idFlight,cuantity, category } = req.body;
      console.log("Reservation data: idFlight=", idFlight, "cuantity=", cuantity, "category=", category);
+
+     // Get flight to check availability
+     const flight = await Flights.findById(idFlight);
+     if (!flight) {
+       return res.status(404).json({ error: 'Flight not found' });
+     }
+     const available = getAvailable(flight.price, category);
+
+     // Get total reserved for this flight and category
+     const totalReservedAgg = await Reservation.aggregate([
+       { $match: { idFlight, category } },
+       { $group: { _id: null, total: { $sum: '$chairs_reserved' } } }
+     ]);
+     const totalReserved = totalReservedAgg.length > 0 ? totalReservedAgg[0].total : 0;
+
+     if (cuantity > available - totalReserved) {
+       return res.status(400).json({ error: 'Not enough seats available' });
+     }
+
      const newFlight = new Reservation({
        idFlight,
        idUser,
@@ -74,6 +103,33 @@ router.put("/:idFlight",checkToken, async(req, res) => {
      console.log('PUT reservation: Searching for reservation with _id:', idFlight, 'idUser:', idUser);
      console.log('PUT reservation: Query:', {_id:idFlight, idUser});
      console.log('PUT reservation: UpdatedData:', updatedData);
+
+     // Get current reservation to check availability
+     const currentReservation = await Reservation.findOne({_id:idFlight, idUser});
+     if (!currentReservation) {
+       return res.status(404).json({ message: `idFlight ${idFlight} not found` });
+     }
+
+     // Get flight
+     const flight = await Flights.findById(currentReservation.idFlight);
+     if (!flight) {
+       return res.status(404).json({ error: 'Flight not found' });
+     }
+     const available = getAvailable(flight.price, currentReservation.category);
+
+     // Get total reserved for this flight and category
+     const totalReservedAgg = await Reservation.aggregate([
+       { $match: { idFlight: currentReservation.idFlight, category: currentReservation.category } },
+       { $group: { _id: null, total: { $sum: '$chairs_reserved' } } }
+     ]);
+     const totalReserved = totalReservedAgg.length > 0 ? totalReservedAgg[0].total : 0;
+
+     const newChairs = updatedData.chairs_reserved;
+     const oldChairs = currentReservation.chairs_reserved;
+     if (newChairs > available - (totalReserved - oldChairs)) {
+       return res.status(400).json({ error: 'Not enough seats available' });
+     }
+
      reservation = await Reservation.findOneAndUpdate({_id:idFlight, idUser}, updatedData, { new: true });
      console.log('PUT reservation: Find result:', reservation);
      if (!reservation) {
@@ -82,8 +138,7 @@ router.put("/:idFlight",checkToken, async(req, res) => {
      }
 
      console.log('PUT reservation: Updated successfully:', reservation);
-     res.json({ message: "Cantidad actualizada", reservation });
-     console.log("Cantidad de la reserva actualizada", reservation);
+     res.json({ message: "Updated successfully", reservation });
    }catch (err) {
      console.error('Error al actualizar reserva:', err);
      res.status(500).json({ error: 'Error al actualizar reserva' });
