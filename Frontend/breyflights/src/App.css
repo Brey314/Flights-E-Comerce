@@ -144,3 +144,14 @@ body {
 .navbar img:hover {
   transform: scale(1.08);
 }
+
+@media (max-width: 600px) {
+  :root {
+    --font-size-base: 14px;
+    --font-size-title: 28px;
+    --font-size-subtitle: 16px;
+    
+    --spacing-md: 10px; 
+    --spacing-lg: 20px;
+  }
+}

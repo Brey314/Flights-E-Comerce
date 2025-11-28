@@ -223,3 +223,53 @@ body {
 .filter-btn:hover {
   background: var(--color-primary-light);
 }
+
+/* ---------------------------------------------------- */
+/* MEDIA QUERY: LAYOUT RESPONSIVE (MÓVILES Y TABLETS) */
+/* Se activa para dispositivos con un ancho máximo de 768px */
+/* ---------------------------------------------------- */
+@media (max-width: 768px) {
+    
+    /* 1. LAYOUT PRINCIPAL: De dos columnas a una sola (apilado vertical) */
+    .results-container {
+        /* Desactiva el grid de dos columnas */
+        grid-template-columns: 1fr; 
+        /* El ancho debe ser 100% o casi 100% */
+        width: 95%;
+        padding: var(--spacing-md) 0; /* Usa espaciado más pequeño */
+    }
+
+    /* 2. FILTROS: Ajuste para móvil */
+    .filters {
+        /* Deja de estar fijo para que el usuario pueda scrollear */
+        position: static; 
+        width: 100%;
+        /* Asegura que los filtros aparezcan PRIMERO en móvil, 
+           ya que Grid por defecto respeta el orden del HTML */
+        order: 1; 
+    }
+
+    /* 3. CONTENEDOR DE RESULTADOS: */
+    .results {
+        order: 2; /* Los resultados aparecen DESPUÉS de los filtros */
+        padding: var(--spacing-md) 0;
+    }
+
+    /* 4. TARJETA DE VUELO: De horizontal a vertical (apilado) */
+    .flight-card {
+        flex-direction: column; /* Apila el contenido (detalles y botón) */
+        align-items: flex-start; /* Alinea todo a la izquierda */
+        max-width: 100%; /* Ocupa el 100% del ancho del contenedor */
+    }
+
+    /* 5. BOTÓN DE RESERVA: Ocupa todo el ancho */
+    .flight-card button {
+        width: 100%; 
+        margin-top: var(--spacing-md); /* Espacio superior para separarlo de los detalles */
+    }
+
+    /* 6. TÍTULOS */
+    .results h2 {
+        font-size: var(--font-size-subtitle); /* Título más pequeño en móvil */
+    }
+}
