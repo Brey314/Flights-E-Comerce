@@ -24,13 +24,13 @@ function Reservation() {
         }
       };
 
-    const getAvailable = (price, category) => {
+    const getAvailable = (chairs, category) => {
         const percentages = {
           'Economy': 0.75,
           'Business': 0.20,
           'First Class': 0.025
         };
-        return Math.round(price * percentages[category]);
+        return Math.round(chairs * percentages[category]);
       };
 
     const deleteOfResevations = async (idFlight) => {
@@ -56,7 +56,7 @@ function Reservation() {
     const changeChairs = async (idFlight, reserved_chairs, op, item) => {
         try {
             let newcuantity = reserved_chairs;
-            const available = getAvailable(item.price, item.category);
+            const available = getAvailable(item.chairs, item.category);
             if (op === "+") {
                 if (newcuantity >= available) {
                     return;
@@ -77,7 +77,7 @@ function Reservation() {
 
             setReservation((prevCart) => {
                 const newReservation = prevCart.map((reservation) =>
-                reservation._id === idFlight ? { ...reservation, chairs_reserved: newcuantity } : reservation
+                reservation._id === idFlight ? { ...reservation, reserved_chairs: newcuantity } : reservation
             );
             return newReservation;
         });
@@ -91,7 +91,7 @@ function Reservation() {
             return newFlight;
         });
         } catch (err) {
-            console.error("Error cambiando cantidad", err);
+            console.error("Error changing  quantity", err);
         }
     };
 
@@ -111,7 +111,7 @@ function Reservation() {
 
     const checkout = () => {
         if (flight.length === 0) {
-            alert("No hay productos en el carrito");
+            alert("There's aren't flights reserved");
             return;
         }
 
@@ -206,7 +206,7 @@ function Reservation() {
                   <h3>Company: {item.company}</h3>
                   <p className="category">Category: {item.category}</p>
                   <p className="price">USD {(item.price * getPriceMultiplier(item.category)).toFixed(2)} $, per person</p>
-                  <p className="available">Available: {getAvailable(item.price, item.category)}</p>
+                  <p className="available">Available: {getAvailable(item.chairs, item.category)}</p>
 
                   <div className="cart-item-actions">
                     <div className="quantity">

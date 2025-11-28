@@ -39,10 +39,7 @@ router.post("/create-payment-intent", async (req, res) => {
       e: item.email,
       n: item.name
     }));
-
     const metadataString = JSON.stringify(metadataItems);
-    console.log("Metadata items string length:", metadataString.length);
-    console.log("Metadata string:", metadataString);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
@@ -118,6 +115,30 @@ router.post("/webhook", async (req, res) => {
       console.log("Sending email to:", to);
       console.log("From email:", "no-reply@breyflights.com");
       console.log("SendGrid API key set:", process.env.SENDGRID_API_KEY ? "Yes" : "No");
+      
+
+      try{
+        await axios.put(
+          `${api}/flights/${item.flightId}/stock`,
+            {
+              chairs: item.chairs_reserved
+            }
+        );
+        console.log(` Stock update for ${item.flightId}`);
+
+      }catch(err){
+        console.error(" Error updating stock:", err.response?.data || err.message);
+
+      }
+
+      try{
+        await axios.delete(
+          `${api}/reservation/payed/${item._id}`,
+        );
+        console.log(` Buy tiket with id ${item._id}`);
+      }catch(err){
+        console.error(" Error updating resevations:", err.response?.data || err.message);
+      }
       try {
 // sgMail.setDataResidency('eu'); 
 // uncomment the above line if you are sending mail using a regional EU subuser

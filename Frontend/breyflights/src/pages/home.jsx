@@ -28,13 +28,13 @@ function App() {
     return (parseFloat(basePrice) * multiplier).toFixed(2);
   };
 
-  const getAvailable = (price, category) => {
+  const getAvailable = (chairs, category) => {
     const percentages = {
       'Economy': 0.75,
       'Business': 0.20,
       'First Class': 0.025
     };
-    return Math.round(price * percentages[category]);
+    return Math.round(chairs * percentages[category]);
   };
 
   const handleSearch = async (e) => {
@@ -228,7 +228,7 @@ function App() {
                     <p><strong>Time:</strong> {flight.flight_time}</p>
                     <p><strong>Price:</strong> ${calculatePrice(flight.price, category)}</p>
                     <p><strong>Company:</strong> {flight.company}</p>
-                    <p><strong>Available:</strong> {getAvailable(flight.price, category)}</p>
+                    <p><strong>Available:</strong> {getAvailable(flight.chairs, category)}</p>
                   </div>
                 <button type="button" onClick={() => addToRecerved(flight)}>Reservar</button>
                 </div>

@@ -32,4 +32,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/:id/stock', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { chairs } = req.body;
+    const flight = await Flights.findById(id);
+    if (!flight) return res.status(404).json({ error: 'Flight Notfound' });
+    if (flight.chairs < chairs) return res.status(400).json({ error: 'No chairs enough' });
+    flight.chairs -= chairs;
+    await flight.save();
+    res.json({ message: 'Chairs update', chairs: flight.chairs });
+  } catch (err) {
+    res.status(500).json({ error: 'Error updating chairs' });
+  }
+});
+
 module.exports = router;

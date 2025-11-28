@@ -56,14 +56,16 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     let timer;
-
+    
     const resetTimer = () => {
       clearTimeout(timer);
+      
       timer = setTimeout(() => {
         alert("Your sesión has been expired due to inactivity");
         logout();
-        window.location.href = "/"; 
-      }, 15 * 60 * 1000);
+        window.location.href = "/login"; 
+      }, 15*1000*60);
+      console.log(timer);
     };
 
     window.addEventListener("keypress", resetTimer);
