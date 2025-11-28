@@ -17,6 +17,7 @@ const MONGO_URI = process.env.MONGO_URI;
 //STRIPE_SECRET_KEY=key generated when create stripe account
 //STRIPE_WEBHOOK_SECRET=key generated when create a webhook, remember host the backend with ngrok or with a service like this and change the connection point on the Stripe Webhook dashboard
 //REACT_APP_API_URL=in this case http://localhost:5000
+//SENDGRID_API_KEY=key generated in Sendgrid
 // Middleware
 app.use(cors({
   origin: ['http://localhost:5000',"http://localhost:3000"],
