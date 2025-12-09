@@ -89,9 +89,6 @@ router.post("/:id/select-seats", async (req, res) => {
     // Guardar
     flight.chairs_selected.push(...seats);
 
-    // Actualizar sillas disponibles
-    flight.chairs = flight.static_chairs - flight.chairs_selected.length;
-
     await flight.save();
 
     res.json({ success: true, seats: flight.chairs_selected });

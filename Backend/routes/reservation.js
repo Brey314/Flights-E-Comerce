@@ -7,13 +7,14 @@ require('dotenv').config();
 const checkToken = require('../middleware/auth');
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const getAvailable = (price, category) => {
-  const percentages = {
-    'Economy': 0.75,
-    'Business': 0.20,
-    'First Class': 0.025
-  };
-  return Math.round(price * percentages[category]);
+const getAvailable = (flight, category) => {
+  if (category === 'Economy') {
+    return flight.chairs;
+  } else if (category === 'Business') {
+    return flight.chair_business;
+  } else if (category === 'First Class') {
+    return 0;
+  }
 };
 
 // Get flight in reservations
@@ -58,7 +59,7 @@ router.post("/", async(req, res) => {
      if (!flight) {
        return res.status(404).json({ error: 'Flight not found' });
      }
-     const available = getAvailable(flight.price, category);
+     const available = getAvailable(flight, category);
 
      // Get total reserved for this flight and category
      const totalReservedAgg = await Reservation.aggregate([

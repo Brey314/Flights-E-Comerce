@@ -170,7 +170,7 @@ router.post("/webhook", async (req, res) => {
           text: `Thank you for your purchase with BreyFlights! Your payment has been successfully processed. Here are your ticket details:
             🛫 Flight: ${item.name}
             💺 Reserved seats in ${item.category}: ${item.chairs_reserved}, ${item.selectedSeats}
-            💵 Total paid: $${item.unit_amount}
+            💵 Total paid: $${item.unit_amount*item.chairs_reserved}
             📘 Internal code: ${item._id}
 
             If you have any questions or need assistance, feel free to contact us.
